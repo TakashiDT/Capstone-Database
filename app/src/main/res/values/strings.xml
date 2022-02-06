@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">Capstone_Project_Redo</string>
+    <string name="title_activity_home_page">HomePage</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="addItem">Adds Item</string>
+
+    <string name="menu_drawer_open">Drawer Open</string>
+    <string name="menu_drawer_close">Drawer Close</string>
+
+    <!-- NAV -->
+    <string name="menu_home">Home</string>
+    <string name="menu_upload">My Items</string>
+    <string name="menu_category">Categories</string>
+    <string name="menu_logout">Log Out</string>
+
+    <!-- LOGIN PAGE -->
+    <string name="customer_login">Customer Login</string>
+    <string name="forgot_my_password">Forgot my password</string>
+    <string name="log_in_button">log in</string>
+    <string name="create_acct_btn">create account</string>
+    <string name="guest_btn">continue as guest</string>
+
+    <!-- ACCOUNT CREATION -->
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="create_account">Create Account</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="age">Age</string>
+    <string name="province">Province</string>
+    <string name="municipality">Municipality</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="alternative_email">Alternative Email (Optional)</string>
+    <string name="personal_information">Personal Information</string>
+    <string name="address">Address</string>
+    <string name="log_in_details">Log in Details</string>
+    <string name="contact_information">Contact Information</string>
+    <string name="register_btn">register</string>
+    <string name="log_in_here">Log In here</string>
+    <string name="has_account">Already have an account?</string>
+
+    <!-- CATEGORIES -->
+    <string name="categoriesTitle">categories</string>
+    <string name="username">username</string>
+    <string name="Username">Username</string>
+    <string name="Email_Address">Email_Address</string>
+</resources>
