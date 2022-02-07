@@ -10,6 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,10 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class CreateAccount extends AppCompatActivity {
+
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
-
-
-
+    FirebaseAuth uAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +38,17 @@ public class CreateAccount extends AppCompatActivity {
             }
         });
 
+        uAuth = FirebaseAuth.getInstance();
+        String uid = uAuth.getCurrentUser().getUid();
+
 
         final EditText firstname = findViewById(R.id.firstname);
         final EditText lastname = findViewById(R.id.lastname);
         final EditText age = findViewById(R.id.age);
         final EditText province = findViewById(R.id.province);
         final EditText municipality = findViewById(R.id.municipality);
-        final EditText username = findViewById(R.id.username);
-        final EditText password = findViewById(R.id.password);
+        final EditText username = findViewById(R.id.login_email);
+        final EditText password = findViewById(R.id.login_password);
         final EditText mobile = findViewById(R.id.mobile);
         final EditText email = findViewById(R.id.email);
 
@@ -70,23 +76,29 @@ public class CreateAccount extends AppCompatActivity {
                     databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.hasChild(usernameTxt)){
-                                Toast.makeText(CreateAccount.this, "Username is already Exist", Toast.LENGTH_SHORT).show();
+                            if(snapshot.hasChild(uid)){
+                                Toast.makeText(CreateAccount.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                databaseReference.child("users").child(usernameTxt).child("First Name").setValue(firstnameTxt,lastnameTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Last Name").setValue(lastnameTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Age").setValue(ageTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Province").setValue(provinceTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Municipality").setValue(municipalityTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Username").setValue(usernameTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Password").setValue(passwordTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Mobile Number").setValue(mobileTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Email Address").setValue(emailTxt);
-
-                                Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                                databaseReference.child("users").child(uid).child("First Name").setValue(firstnameTxt,lastnameTxt);
+                                databaseReference.child("users").child(uid).child("Last Name").setValue(lastnameTxt);
+                                databaseReference.child("users").child(uid).child("Age").setValue(ageTxt);
+                                databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
+                                databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
+                                databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
+                                databaseReference.child("users").child(uid).child("Password").setValue(passwordTxt);
+                                databaseReference.child("users").child(uid).child("Mobile Number").setValue(mobileTxt);
+                                databaseReference.child("users").child(uid).child("Email Address").setValue(emailTxt);
+                                uAuth.createUserWithEmailAndPassword(emailTxt,passwordTxt)
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
                                 finish();
-
                             }
 
                         }

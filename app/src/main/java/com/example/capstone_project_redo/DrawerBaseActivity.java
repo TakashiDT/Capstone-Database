@@ -14,7 +14,10 @@ import android.widget.FrameLayout;
 
 import com.example.capstone_project_redo.nav.CategoryActivity;
 import com.example.capstone_project_redo.nav.MyItemsActivity;
+import com.example.capstone_project_redo.nav.MyProfileActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class DrawerBaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -48,17 +51,23 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
                 overridePendingTransition(0, 0);
                 break;
 
-            case R.id.nav_upload:
-                startActivity(new Intent(this, MyItemsActivity.class));
-                overridePendingTransition(0, 0);
-                break;
-
             case R.id.nav_category:
                 startActivity(new Intent(this, CategoryActivity.class));
                 overridePendingTransition(0, 0);
                 break;
 
+            case R.id.nav_profile:
+                startActivity(new Intent(this, MyProfileActivity.class));
+                overridePendingTransition(0, 0);
+                break;
+
+            case R.id.nav_upload:
+                startActivity(new Intent(this, MyItemsActivity.class));
+                overridePendingTransition(0, 0);
+                break;
+
             case R.id.nav_logout:
+                FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this, LoginActivity.class));
                 overridePendingTransition(0, 0);
                 break;
