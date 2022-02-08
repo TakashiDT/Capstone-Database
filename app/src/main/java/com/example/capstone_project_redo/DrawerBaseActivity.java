@@ -8,6 +8,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -40,7 +42,18 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
+/*
+    public void onCreateOptionsMenu(Menu menu, MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.activity_main_drawer, menu);
+        //super.onCreateOptionsMenu(menu);
 
+        FirebaseUser uAuth = FirebaseAuth.getInstance().getCurrentUser();
+        if (uAuth != null) {
+            MenuItem pinMenuItem = menu.findItem(R.id.nav_profile);
+            pinMenuItem.setVisible(false);
+        }
+    }
+*/
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         drawerLayout.closeDrawer(GravityCompat.START);

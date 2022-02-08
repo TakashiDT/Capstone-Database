@@ -39,7 +39,6 @@ public class CreateAccount extends AppCompatActivity {
         });
 
         uAuth = FirebaseAuth.getInstance();
-        String uid = uAuth.getCurrentUser().getUid();
 
 
         final EditText firstname = findViewById(R.id.firstname);
@@ -76,24 +75,23 @@ public class CreateAccount extends AppCompatActivity {
                     databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.hasChild(uid)){
+                            if(snapshot.hasChild("users")){
                                 Toast.makeText(CreateAccount.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                databaseReference.child("users").child(uid).child("First Name").setValue(firstnameTxt,lastnameTxt);
-                                databaseReference.child("users").child(uid).child("Last Name").setValue(lastnameTxt);
-                                databaseReference.child("users").child(uid).child("Age").setValue(ageTxt);
-                                databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
-                                databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
-                                databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
-                                databaseReference.child("users").child(uid).child("Password").setValue(passwordTxt);
-                                databaseReference.child("users").child(uid).child("Mobile Number").setValue(mobileTxt);
-                                databaseReference.child("users").child(uid).child("Email Address").setValue(emailTxt);
                                 uAuth.createUserWithEmailAndPassword(emailTxt,passwordTxt)
                                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                 if (task.isSuccessful()) {
+                                                    Intent passData = new Intent(CreateAccount.this, LoginActivity.class);
+                                                    passData.putExtra("firstName",firstnameTxt);
+                                                    passData.putExtra("lastName",lastnameTxt);
+                                                    passData.putExtra("age",ageTxt);
+                                                    passData.putExtra("province",provinceTxt);
+                                                    passData.putExtra("municipality",municipalityTxt);
+                                                    passData.putExtra("username",usernameTxt);
+                                                    passData.putExtra("mobile",mobileTxt);
                                                     Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
                                                 }
                                             }

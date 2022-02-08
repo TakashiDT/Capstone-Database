@@ -24,9 +24,9 @@ public class HomePage extends DrawerBaseActivity {
 
         currentUser = (TextView)findViewById(R.id.fb_currentUser);
 
-        FirebaseUser uAuth = FirebaseAuth.getInstance().getCurrentUser();
-        if (uAuth != null) {
-            currentUser.setText(uAuth.getEmail());
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            currentUser.setText(user.getEmail());
         }
     }
 }
