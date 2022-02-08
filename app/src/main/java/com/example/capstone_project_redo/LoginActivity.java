@@ -23,7 +23,6 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com/");
     FirebaseAuth uAuth;
 
 
@@ -49,13 +48,10 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         uAuth = FirebaseAuth.getInstance();
-        /*
-        String uid = uAuth.getCurrentUser().getUid();
-        */
+
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Toast.makeText(getApplicationContext(),"User already logged in.", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(LoginActivity.this, HomePage.class));
         }
 
         final EditText email = findViewById(R.id.login_email);
@@ -67,36 +63,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent passData = getIntent();
-                final String firstnameTxt = passData.getStringExtra("firstName");
-                final String lastnameTxt = passData.getStringExtra("lastName");
-                final String ageTxt = passData.getStringExtra("age");
-                final String provinceTxt = passData.getStringExtra("province");
-                final String municipalityTxt = passData.getStringExtra("municipality");
-                final String usernameTxt = passData.getStringExtra("username");
-                final String mobileTxt = passData.getStringExtra("mobile");
-
                 final String emailTxt = email.getText().toString();
                 final String passwordTxt = password.getText().toString();
 
-
-
                 if (emailTxt.isEmpty() || passwordTxt.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Please Input Email or Password", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "Please Input both Email and Password", Toast.LENGTH_SHORT).show();
                 } else {
                     uAuth.signInWithEmailAndPassword(emailTxt,passwordTxt)
                             .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
-                                        String uid = uAuth.getCurrentUser().getUid();
-                                        databaseReference.child("users").child(uid).child("First Name").setValue(firstnameTxt);
-                                        databaseReference.child("users").child(uid).child("Last Name").setValue(lastnameTxt);
-                                        databaseReference.child("users").child(uid).child("Age").setValue(ageTxt);
-                                        databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
-                                        databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
-                                        databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
-                                        databaseReference.child("users").child(uid).child("Mobile Number").setValue(mobileTxt);
 
                                         startActivity(new Intent(LoginActivity.this, HomePage.class));
                                         Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();

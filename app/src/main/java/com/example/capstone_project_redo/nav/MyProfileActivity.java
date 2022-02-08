@@ -28,7 +28,6 @@ public class MyProfileActivity extends DrawerBaseActivity {
     ActivityMyProfileBinding activityMyProfileBinding;
 
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
-    FirebaseAuth uAuth;
 
     List<String> itemList;
 
@@ -50,12 +49,12 @@ public class MyProfileActivity extends DrawerBaseActivity {
 
             TextView fullName = findViewById(R.id.tv_profileName);
 
-            databaseReference.child("users").addValueEventListener(new ValueEventListener() {
+            databaseReference.child(uid).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    String firstNameTxt = snapshot.child(uid).child("First Name").getValue(String.class);
-                    String lastNameTxt = snapshot.child(uid).child("Last Name").getValue(String.class);
+                    String firstNameTxt = snapshot.child("users").child(uid).child("First Name").getValue(String.class);
+                    String lastNameTxt = snapshot.child("users").child(uid).child("Last Name").getValue(String.class);
                     String fullNameTxt = firstNameTxt + " " + lastNameTxt;
 
                     itemList.add(fullNameTxt);

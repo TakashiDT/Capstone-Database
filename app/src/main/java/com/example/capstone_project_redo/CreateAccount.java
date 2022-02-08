@@ -22,7 +22,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class CreateAccount extends AppCompatActivity {
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
     FirebaseAuth uAuth;
 
     @Override
@@ -40,7 +41,6 @@ public class CreateAccount extends AppCompatActivity {
 
         uAuth = FirebaseAuth.getInstance();
 
-
         final EditText firstname = findViewById(R.id.firstname);
         final EditText lastname = findViewById(R.id.lastname);
         final EditText age = findViewById(R.id.age);
@@ -52,7 +52,6 @@ public class CreateAccount extends AppCompatActivity {
         final EditText email = findViewById(R.id.email);
 
         final Button registerBtn = findViewById(R.id.registerBtn);
-
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,31 +66,33 @@ public class CreateAccount extends AppCompatActivity {
                 final String mobileTxt = mobile.getText().toString();
                 final String emailTxt = email.getText().toString();
 
+                String key = database.getReference("users").push().getKey();
+
                 if(firstnameTxt.isEmpty() || lastnameTxt.isEmpty() || ageTxt.isEmpty() || provinceTxt.isEmpty() || municipalityTxt.isEmpty() || usernameTxt.isEmpty() || passwordTxt.isEmpty() || mobileTxt.isEmpty() || emailTxt.isEmpty()){
                     Toast.makeText(CreateAccount.this, "Please Fill all fields", Toast.LENGTH_SHORT).show();
                 }
-
                 else {
-                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.hasChild("users")){
                                 Toast.makeText(CreateAccount.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             }
                             else{
+                                databaseReference.child("users").child(key).child("FirstName").setValue(firstnameTxt);
+                                databaseReference.child("users").child(key).child("LastName").setValue(lastnameTxt);
+                                databaseReference.child("users").child(key).child("Age").setValue(ageTxt);
+                                databaseReference.child("users").child(key).child("Province").setValue(provinceTxt);
+                                databaseReference.child("users").child(key).child("Municipality").setValue(municipalityTxt);
+                                databaseReference.child("users").child(key).child("Username").setValue(usernameTxt);
+                                databaseReference.child("users").child(key).child("MobileNumber").setValue(mobileTxt);
+                                databaseReference.child("users").child(key).child("EmailAddress").setValue(mobileTxt);
+
                                 uAuth.createUserWithEmailAndPassword(emailTxt,passwordTxt)
                                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                 if (task.isSuccessful()) {
-                                                    Intent passData = new Intent(CreateAccount.this, LoginActivity.class);
-                                                    passData.putExtra("firstName",firstnameTxt);
-                                                    passData.putExtra("lastName",lastnameTxt);
-                                                    passData.putExtra("age",ageTxt);
-                                                    passData.putExtra("province",provinceTxt);
-                                                    passData.putExtra("municipality",municipalityTxt);
-                                                    passData.putExtra("username",usernameTxt);
-                                                    passData.putExtra("mobile",mobileTxt);
                                                     Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
                                                 }
                                             }
@@ -106,19 +107,8 @@ public class CreateAccount extends AppCompatActivity {
 
                         }
                     });
-
-
                 }
             }
         });
-
-
-
-
-
-
-
-
-
     }
 }
