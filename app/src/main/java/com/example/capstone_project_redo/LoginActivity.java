@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -18,7 +23,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com/");
+    FirebaseAuth uAuth;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +47,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        uAuth = FirebaseAuth.getInstance();
 
-        final EditText username = findViewById(R.id.username);
-        final EditText password = findViewById(R.id.password);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            Toast.makeText(getApplicationContext(),"User already logged in.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(LoginActivity.this, HomePage.class));
+        }
+
+        final EditText email = findViewById(R.id.login_email);
+        final EditText password = findViewById(R.id.login_password);
         final Button loginBtn = findViewById(R.id.logInBtn);
 
 
@@ -51,47 +64,27 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                final String usernameTxt = username.getText().toString();
+                final String emailTxt = email.getText().toString();
                 final String passwordTxt = password.getText().toString();
 
-
-
-                if (usernameTxt.isEmpty() || passwordTxt.isEmpty()) {
-                    Toast.makeText(LoginActivity.this, "Please Input Email or Password", Toast.LENGTH_SHORT).show();
+                if (emailTxt.isEmpty() || passwordTxt.isEmpty()) {
+                    Toast.makeText(LoginActivity.this, "Please Input both Email and Password", Toast.LENGTH_SHORT).show();
                 } else {
-                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.hasChild(usernameTxt)) {
+                    uAuth.signInWithEmailAndPassword(emailTxt,passwordTxt)
+                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                @Override
+                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                    if (task.isSuccessful()) {
 
-
-                                final String getPassword = snapshot.child(usernameTxt).child("Password").getValue(String.class);
-
-                                if (getPassword.equals(passwordTxt)) {
-                                    Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(LoginActivity.this, HomePage.class));
-                                    finish();
-
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+                                        startActivity(new Intent(LoginActivity.this, HomePage.class));
+                                        Toast.makeText(LoginActivity.this, "Successfully Logged In", Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(LoginActivity.this, "Wrong Email or Password", Toast.LENGTH_SHORT).show();
+                                    }
                                 }
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Wrong Username", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-
+                            });
                 }
-
-
-
-
             }
         });
 

@@ -10,7 +10,12 @@ import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.databinding.ActivityMyItemsBinding;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
 public class MyItemsActivity extends DrawerBaseActivity {
+
+    private StorageReference uItemStorageRef;
 
     ActivityMyItemsBinding activityMyItemsBinding;
     @Override
@@ -19,6 +24,8 @@ public class MyItemsActivity extends DrawerBaseActivity {
         activityMyItemsBinding = ActivityMyItemsBinding.inflate(getLayoutInflater());
         setContentView(activityMyItemsBinding.getRoot());
         allocateActivityTitle("My Items");
+
+        uItemStorageRef = FirebaseStorage.getInstance().getReference();
 
         FloatingActionButton fab_addItem = findViewById(R.id.fab_addItem);
         fab_addItem.setOnClickListener(new View.OnClickListener() {

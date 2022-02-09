@@ -10,6 +10,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,10 +22,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class CreateAccount extends AppCompatActivity {
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
 
-
-
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
+    FirebaseAuth uAuth;
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,19 +41,19 @@ public class CreateAccount extends AppCompatActivity {
             }
         });
 
+        uAuth = FirebaseAuth.getInstance();
 
         final EditText firstname = findViewById(R.id.firstname);
         final EditText lastname = findViewById(R.id.lastname);
         final EditText age = findViewById(R.id.age);
         final EditText province = findViewById(R.id.province);
         final EditText municipality = findViewById(R.id.municipality);
-        final EditText username = findViewById(R.id.username);
-        final EditText password = findViewById(R.id.password);
+        final EditText username = findViewById(R.id.login_email);
+        final EditText password = findViewById(R.id.login_password);
         final EditText mobile = findViewById(R.id.mobile);
         final EditText email = findViewById(R.id.email);
 
         final Button registerBtn = findViewById(R.id.registerBtn);
-
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,31 +68,57 @@ public class CreateAccount extends AppCompatActivity {
                 final String mobileTxt = mobile.getText().toString();
                 final String emailTxt = email.getText().toString();
 
+
                 if(firstnameTxt.isEmpty() || lastnameTxt.isEmpty() || ageTxt.isEmpty() || provinceTxt.isEmpty() || municipalityTxt.isEmpty() || usernameTxt.isEmpty() || passwordTxt.isEmpty() || mobileTxt.isEmpty() || emailTxt.isEmpty()){
                     Toast.makeText(CreateAccount.this, "Please Fill all fields", Toast.LENGTH_SHORT).show();
                 }
-
                 else {
                     databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.hasChild(usernameTxt)){
-                                Toast.makeText(CreateAccount.this, "Username is already Exist", Toast.LENGTH_SHORT).show();
+                            if(snapshot.hasChild("EmailAddress")){
+                                Toast.makeText(CreateAccount.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                databaseReference.child("users").child(usernameTxt).child("First Name").setValue(firstnameTxt,lastnameTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Last Name").setValue(lastnameTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Age").setValue(ageTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Province").setValue(provinceTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Municipality").setValue(municipalityTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Username").setValue(usernameTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Password").setValue(passwordTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Mobile Number").setValue(mobileTxt);
-                                databaseReference.child("users").child(usernameTxt).child("Email Address").setValue(emailTxt);
+                                uAuth.createUserWithEmailAndPassword(emailTxt,passwordTxt)
+                                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    //FirebaseAuth.getInstance().signOut();
+                                                    Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
 
-                                Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+                                                    uAuth.signInWithEmailAndPassword(emailTxt,passwordTxt)
+                                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        currentUser = uAuth.getCurrentUser();
+                                                                        if (currentUser != null) {
+                                                                            String uid = currentUser.getUid();
+
+
+                                                                            databaseReference.child("users").child(uid).child("FirstName").setValue(firstnameTxt);
+                                                                            databaseReference.child("users").child(uid).child("LastName").setValue(lastnameTxt);
+                                                                            databaseReference.child("users").child(uid).child("Age").setValue(ageTxt);
+                                                                            databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
+                                                                            databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
+                                                                            databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
+                                                                            databaseReference.child("users").child(uid).child("Password").setValue(passwordTxt);
+                                                                            databaseReference.child("users").child(uid).child("MobileNumber").setValue(mobileTxt);
+                                                                            databaseReference.child("users").child(uid).child("EmailAddress").setValue(emailTxt);
+                                                                        }
+                                                                        FirebaseAuth.getInstance().signOut();
+                                                                    }
+                                                                    else {
+                                                                        Toast.makeText(CreateAccount.this, "No User Logged In", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
+                                                }
+                                            }
+                                        });
                                 finish();
-
                             }
 
                         }
@@ -96,19 +128,8 @@ public class CreateAccount extends AppCompatActivity {
 
                         }
                     });
-
-
                 }
             }
         });
-
-
-
-
-
-
-
-
-
     }
 }

@@ -15,6 +15,7 @@
     <!-- NAV -->
     <string name="menu_home">Home</string>
     <string name="menu_upload">My Items</string>
+    <string name="menu_profile">My Profile</string>
     <string name="menu_category">Categories</string>
     <string name="menu_logout">Log Out</string>
 
@@ -35,12 +36,12 @@
     <string name="province">Province</string>
     <string name="municipality">Municipality</string>
     <string name="mobile_number">Mobile Number</string>
-    <string name="alternative_email">Alternative Email (Optional)</string>
     <string name="personal_information">Personal Information</string>
-    <string name="address">Address</string>
+    <string name="address">Market Address</string>
     <string name="log_in_details">Log in Details</string>
     <string name="contact_information">Contact Information</string>
     <string name="register_btn">register</string>
+    <string name="email_address">Email Address</string>
     <string name="log_in_here">Log In here</string>
     <string name="has_account">Already have an account?</string>
 
@@ -48,5 +49,4 @@
     <string name="categoriesTitle">categories</string>
     <string name="username">username</string>
     <string name="Username">Username</string>
-    <string name="Email_Address">Email_Address</string>
 </resources>

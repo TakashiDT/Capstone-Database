@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone_Project_Redo">
-        <activity android:name=".InsideCategoryActivity"></activity>
+        <activity android:name=".nav.MyProfileActivity"></activity>
+        <activity android:name=".InsideCategoryActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".nav.MyItemsActivity" />
         <activity android:name=".nav.CategoryActivity" />
@@ -21,7 +22,8 @@
             android:label="@string/title_activity_home_page"
             android:theme="@style/Theme.Capstone_Project_Redo.NoActionBar" />
         <activity android:name=".CreateAccount" />
-        <activity android:name=".MainActivity"
+        <activity
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
