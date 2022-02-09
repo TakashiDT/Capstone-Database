@@ -52,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             Toast.makeText(getApplicationContext(),"User already logged in.", Toast.LENGTH_LONG).show();
+            startActivity(new Intent(LoginActivity.this, HomePage.class));
         }
 
         final EditText email = findViewById(R.id.login_email);

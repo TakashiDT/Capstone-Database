@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.capstone_project_redo.databinding.ActivityHomePageBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,6 +24,7 @@ public class HomePage extends DrawerBaseActivity {
         allocateActivityTitle("Home");
 
         currentUser = (TextView)findViewById(R.id.fb_currentUser);
+
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {

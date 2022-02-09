@@ -14,6 +14,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,7 @@ public class CreateAccount extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
     FirebaseAuth uAuth;
+    FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,34 +68,53 @@ public class CreateAccount extends AppCompatActivity {
                 final String mobileTxt = mobile.getText().toString();
                 final String emailTxt = email.getText().toString();
 
-                String key = database.getReference("users").push().getKey();
 
                 if(firstnameTxt.isEmpty() || lastnameTxt.isEmpty() || ageTxt.isEmpty() || provinceTxt.isEmpty() || municipalityTxt.isEmpty() || usernameTxt.isEmpty() || passwordTxt.isEmpty() || mobileTxt.isEmpty() || emailTxt.isEmpty()){
                     Toast.makeText(CreateAccount.this, "Please Fill all fields", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    databaseReference.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if(snapshot.hasChild("users")){
+                            if(snapshot.hasChild("EmailAddress")){
                                 Toast.makeText(CreateAccount.this, "Email already exists", Toast.LENGTH_SHORT).show();
                             }
                             else{
-                                databaseReference.child("users").child(key).child("FirstName").setValue(firstnameTxt);
-                                databaseReference.child("users").child(key).child("LastName").setValue(lastnameTxt);
-                                databaseReference.child("users").child(key).child("Age").setValue(ageTxt);
-                                databaseReference.child("users").child(key).child("Province").setValue(provinceTxt);
-                                databaseReference.child("users").child(key).child("Municipality").setValue(municipalityTxt);
-                                databaseReference.child("users").child(key).child("Username").setValue(usernameTxt);
-                                databaseReference.child("users").child(key).child("MobileNumber").setValue(mobileTxt);
-                                databaseReference.child("users").child(key).child("EmailAddress").setValue(mobileTxt);
-
                                 uAuth.createUserWithEmailAndPassword(emailTxt,passwordTxt)
                                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                                             @Override
                                             public void onComplete(@NonNull Task<AuthResult> task) {
                                                 if (task.isSuccessful()) {
+                                                    //FirebaseAuth.getInstance().signOut();
                                                     Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
+
+                                                    uAuth.signInWithEmailAndPassword(emailTxt,passwordTxt)
+                                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                                                @Override
+                                                                public void onComplete(@NonNull Task<AuthResult> task) {
+                                                                    if (task.isSuccessful()) {
+                                                                        currentUser = uAuth.getCurrentUser();
+                                                                        if (currentUser != null) {
+                                                                            String uid = currentUser.getUid();
+
+
+                                                                            databaseReference.child("users").child(uid).child("FirstName").setValue(firstnameTxt);
+                                                                            databaseReference.child("users").child(uid).child("LastName").setValue(lastnameTxt);
+                                                                            databaseReference.child("users").child(uid).child("Age").setValue(ageTxt);
+                                                                            databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
+                                                                            databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
+                                                                            databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
+                                                                            databaseReference.child("users").child(uid).child("Password").setValue(passwordTxt);
+                                                                            databaseReference.child("users").child(uid).child("MobileNumber").setValue(mobileTxt);
+                                                                            databaseReference.child("users").child(uid).child("EmailAddress").setValue(emailTxt);
+                                                                        }
+                                                                        FirebaseAuth.getInstance().signOut();
+                                                                    }
+                                                                    else {
+                                                                        Toast.makeText(CreateAccount.this, "No User Logged In", Toast.LENGTH_SHORT).show();
+                                                                    }
+                                                                }
+                                                            });
                                                 }
                                             }
                                         });
