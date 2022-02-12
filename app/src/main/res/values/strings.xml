@@ -49,4 +49,13 @@
     <string name="categoriesTitle">categories</string>
     <string name="username">username</string>
     <string name="Username">Username</string>
+
+    <!-- ADD PRODUCTS -->
+    <string-array name="chooseCategory">
+        <item>Meat</item>
+        <item>Vegetables</item>
+        <item>Fish</item>
+        <item>Dairy Products</item>
+        <item>Bread</item>
+    </string-array>
 </resources>

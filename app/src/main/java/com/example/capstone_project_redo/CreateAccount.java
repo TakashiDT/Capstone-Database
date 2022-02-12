@@ -48,10 +48,10 @@ public class CreateAccount extends AppCompatActivity {
         final EditText age = findViewById(R.id.age);
         final EditText province = findViewById(R.id.province);
         final EditText municipality = findViewById(R.id.municipality);
-        final EditText username = findViewById(R.id.login_email);
+        final EditText username = findViewById(R.id.username);
         final EditText password = findViewById(R.id.login_password);
         final EditText mobile = findViewById(R.id.mobile);
-        final EditText email = findViewById(R.id.email);
+        final EditText email = findViewById(R.id.login_email);
 
         final Button registerBtn = findViewById(R.id.registerBtn);
 
@@ -87,40 +87,44 @@ public class CreateAccount extends AppCompatActivity {
                                                 if (task.isSuccessful()) {
                                                     //FirebaseAuth.getInstance().signOut();
                                                     Toast.makeText(CreateAccount.this, "User Registered Successfully", Toast.LENGTH_SHORT).show();
-
-                                                    uAuth.signInWithEmailAndPassword(emailTxt,passwordTxt)
-                                                            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                                                                @Override
-                                                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                                                    if (task.isSuccessful()) {
-                                                                        currentUser = uAuth.getCurrentUser();
-                                                                        if (currentUser != null) {
-                                                                            String uid = currentUser.getUid();
-
-
-                                                                            databaseReference.child("users").child(uid).child("FirstName").setValue(firstnameTxt);
-                                                                            databaseReference.child("users").child(uid).child("LastName").setValue(lastnameTxt);
-                                                                            databaseReference.child("users").child(uid).child("Age").setValue(ageTxt);
-                                                                            databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
-                                                                            databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
-                                                                            databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
-                                                                            databaseReference.child("users").child(uid).child("Password").setValue(passwordTxt);
-                                                                            databaseReference.child("users").child(uid).child("MobileNumber").setValue(mobileTxt);
-                                                                            databaseReference.child("users").child(uid).child("EmailAddress").setValue(emailTxt);
-                                                                        }
-                                                                        FirebaseAuth.getInstance().signOut();
-                                                                    }
-                                                                    else {
-                                                                        Toast.makeText(CreateAccount.this, "No User Logged In", Toast.LENGTH_SHORT).show();
-                                                                    }
-                                                                }
-                                                            });
+                                                    uploadUserData();
                                                 }
                                             }
                                         });
                                 finish();
                             }
 
+                        }
+
+                        private void uploadUserData() {
+
+                            uAuth.signInWithEmailAndPassword(emailTxt,passwordTxt)
+                                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                currentUser = uAuth.getCurrentUser();
+                                                if (currentUser != null) {
+                                                    String uid = currentUser.getUid();
+
+
+                                                    databaseReference.child("users").child(uid).child("FirstName").setValue(firstnameTxt);
+                                                    databaseReference.child("users").child(uid).child("LastName").setValue(lastnameTxt);
+                                                    databaseReference.child("users").child(uid).child("UserAge").setValue(ageTxt);
+                                                    databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
+                                                    databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
+                                                    databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
+                                                    databaseReference.child("users").child(uid).child("Password").setValue(passwordTxt);
+                                                    databaseReference.child("users").child(uid).child("MobileNumber").setValue(mobileTxt);
+                                                    databaseReference.child("users").child(uid).child("EmailAddress").setValue(emailTxt);
+                                                }
+                                                FirebaseAuth.getInstance().signOut();
+                                            }
+                                            else {
+                                                Toast.makeText(CreateAccount.this, "No User Logged In", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         }
 
                         @Override

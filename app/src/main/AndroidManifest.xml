@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone_Project_Redo">
-        <activity android:name=".nav.MyProfileActivity"></activity>
+        <activity android:name=".AddItemActivity"></activity>
+        <activity android:name=".nav.MyProfileActivity" />
         <activity android:name=".InsideCategoryActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".nav.MyItemsActivity" />

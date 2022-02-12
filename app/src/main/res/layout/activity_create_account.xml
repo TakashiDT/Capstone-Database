@@ -163,7 +163,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/municipality" />
 
                 <EditText
-                    android:id="@+id/login_email"
+                    android:id="@+id/username"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -176,7 +176,7 @@
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                    app:layout_constraintTop_toBottomOf="@+id/mobile" />
 
                 <EditText
                     android:id="@+id/login_password"
@@ -225,11 +225,10 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
                 <EditText
-                    android:id="@+id/email"
+                    android:id="@+id/login_email"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
                     android:layout_marginEnd="16dp"
                     android:background="@drawable/rectangle"
                     android:hint="@string/email_address"
@@ -239,22 +238,23 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/mobile" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
                 <Button
                     android:id="@+id/registerBtn"
                     android:layout_width="0dp"
                     android:layout_height="55dp"
                     android:layout_marginStart="64dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="64dp"
                     android:backgroundTint="@color/main_color"
                     android:text="@string/register_btn"
                     android:textAllCaps="true"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/email" />
+                    app:layout_constraintTop_toBottomOf="@+id/username" />
 
                 <TextView
                     android:id="@+id/textView6"

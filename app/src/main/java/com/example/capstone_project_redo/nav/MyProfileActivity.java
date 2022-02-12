@@ -57,7 +57,7 @@ public class MyProfileActivity extends DrawerBaseActivity {
                 String firstName = (String) snapshot.child("FirstName").getValue();
                 String lastName = (String) snapshot.child("LastName").getValue();
                 String fullName = firstName + " " + lastName;
-                String age = (String) snapshot.child("Age").getValue();
+                String age = (String) snapshot.child("UserAge").getValue();
                 String municipality = (String) snapshot.child("Municipality").getValue();
                 String province = (String) snapshot.child("Province").getValue();
                 String marketAddress = municipality + ", " + province;
