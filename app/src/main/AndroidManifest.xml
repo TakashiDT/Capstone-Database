@@ -15,7 +15,7 @@
         <activity android:name=".nav.MyProfileActivity" />
         <activity android:name=".InsideCategoryActivity" />
         <activity android:name=".LoginActivity" />
-        <activity android:name=".nav.MyItemsActivity" />
+        <activity android:name=".nav.MyProductsActivity" />
         <activity android:name=".nav.CategoryActivity" />
         <activity android:name=".DrawerBaseActivity" />
         <activity

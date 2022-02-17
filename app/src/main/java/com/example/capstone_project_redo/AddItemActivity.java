@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,6 +31,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -50,12 +52,11 @@ public class AddItemActivity extends AppCompatActivity {
     Button selectImageBtn, clearImageBtn, uploadImageBtn;
     ImageView addProductImage;
 
-    int productNo = 0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
+
 
         selectImageBtn = findViewById(R.id.btn_selectImage);
         clearImageBtn = findViewById(R.id.btn_clearImage);
@@ -75,10 +76,28 @@ public class AddItemActivity extends AppCompatActivity {
         uploadImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadImage();
-                addProductImage.setImageURI(null);
-                productName.setText(null);
-                productCategory.setText(null);
+
+                productName = findViewById(R.id.et_productName);
+                productCategory = findViewById(R.id.et_productCategory);
+                String productNameTxt = productName.getText().toString();
+                String productCategoryTxt = productCategory.getText().toString();
+
+                if (addProductImage == null) {
+                    Toast.makeText(AddItemActivity.this,"Please Choose a photo",Toast.LENGTH_SHORT).show();
+                }
+                else {
+
+                    if (productNameTxt.isEmpty() && productCategoryTxt.isEmpty()) {
+                        Toast.makeText(AddItemActivity.this,"Fill in all fields",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        uploadImage();
+                        addProductImage.setImageURI(null);
+                        productName.setText(null);
+                        productCategory.setText(null);
+                    }
+                }
+
             }
         });
     }
@@ -107,14 +126,14 @@ public class AddItemActivity extends AppCompatActivity {
         productCategory = findViewById(R.id.et_productCategory);
         String productNameTxt = productName.getText().toString();
         String productCategoryTxt = productCategory.getText().toString();
-        String productCounter = Integer.toString(productNo);
-
 
         SimpleDateFormat imageFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
         Date now = new Date();
         String filename = imageFormat.format(now);
 
-        uItemStorageRef = FirebaseStorage.getInstance().getReference("users/"+currentUser+"/"+"Products/"+productNo+"_"+filename);
+        String productKey = database.getReference("products").push().getKey();
+
+        uItemStorageRef = FirebaseStorage.getInstance().getReference("users/"+currentUser+"/"+"Products/"+productKey);
 
         uItemStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -123,28 +142,40 @@ public class AddItemActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         productImageUrl = uri.toString();
-
                         databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
-                        databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        // Checks the database for children as integers, starts from 0 onwards.
+                        DatabaseReference productsRef = database.getReference().child("products").child("1allID").child(currentUser);
+                        productsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                databaseReference.child("users").child(currentUser).child("AllProducts").child(productCounter).child("ProductName").setValue(productNameTxt);
-                                databaseReference.child("users").child(currentUser).child("AllProducts").child(productCounter).child("ProductCategory").setValue(productCategoryTxt);
-                                databaseReference.child("users").child(currentUser).child("AllProducts").child(productCounter).child("ProductImageUrl").setValue(productImageUrl);
+                                int productCount = (int) snapshot.getChildrenCount();
+                                String productCountTxt = Integer.toString(productCount);
+                                do {
+                                    databaseReference.child("products").child("1allID").child(currentUser).child(productCountTxt).setValue(productKey);
+                                }
+                                while (snapshot.hasChild(productCountTxt));
                             }
 
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
-                                Toast.makeText(AddItemActivity.this, "Data Upload Failed", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddItemActivity.this,"Failed to upload product",Toast.LENGTH_SHORT).show();
                             }
                         });
-                        productNo+=1;
+
+
+                        databaseReference.child("products").child(currentUser).child(productKey).child("id").setValue(productKey);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("name").setValue(productNameTxt);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("category").setValue(productCategoryTxt);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("imageUrl").setValue(productImageUrl);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("dateUploaded").setValue(filename);
+                        Toast.makeText(AddItemActivity.this,"Successfully Uploaded Data",Toast.LENGTH_SHORT).show();
                     }
                 });
                 if (imageUploadProgress.isShowing()) {
                     imageUploadProgress.dismiss();
                 }
-                Toast.makeText(AddItemActivity.this,"Successfully Uploaded Data",Toast.LENGTH_SHORT).show();
+                finish();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

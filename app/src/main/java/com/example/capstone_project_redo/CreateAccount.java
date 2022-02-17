@@ -73,7 +73,7 @@ public class CreateAccount extends AppCompatActivity {
                     Toast.makeText(CreateAccount.this, "Please Fill all fields", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if(snapshot.hasChild("EmailAddress")){
@@ -108,9 +108,10 @@ public class CreateAccount extends AppCompatActivity {
                                                     String uid = currentUser.getUid();
 
 
+                                                    databaseReference.child("users").child(uid).child("id").setValue(uid);
                                                     databaseReference.child("users").child(uid).child("FirstName").setValue(firstnameTxt);
                                                     databaseReference.child("users").child(uid).child("LastName").setValue(lastnameTxt);
-                                                    databaseReference.child("users").child(uid).child("UserAge").setValue(ageTxt);
+                                                    databaseReference.child("users").child(uid).child("Age").setValue(ageTxt);
                                                     databaseReference.child("users").child(uid).child("Province").setValue(provinceTxt);
                                                     databaseReference.child("users").child(uid).child("Municipality").setValue(municipalityTxt);
                                                     databaseReference.child("users").child(uid).child("Username").setValue(usernameTxt);
