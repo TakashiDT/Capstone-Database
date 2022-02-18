@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="6dp"
+    android:elevation="6dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/iv_myProductImage"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:srcCompat="@drawable/ic_launcher_foreground"
+            android:layout_centerVertical="true" />
+            <!-- set border if possible-->
+
+        <TextView
+            android:id="@+id/tv_myProductName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product Name"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/iv_myProductImage"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/tv_myProductCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product Category"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/iv_myProductImage"
+            android:layout_below="@+id/tv_myProductName"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/tv_myProductId"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Product ID"
+            android:textSize="16sp"
+            android:layout_toRightOf="@+id/iv_myProductImage"
+            android:layout_below="@+id/tv_myProductCategory"
+            android:layout_marginLeft="10dp" />
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

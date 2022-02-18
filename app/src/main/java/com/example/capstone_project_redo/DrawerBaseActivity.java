@@ -9,13 +9,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.content.Intent;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.capstone_project_redo.nav.CategoryActivity;
-import com.example.capstone_project_redo.nav.MyItemsActivity;
+import com.example.capstone_project_redo.nav.MyProductsActivity;
 import com.example.capstone_project_redo.nav.MyProfileActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -70,7 +69,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
                 break;
 
             case R.id.nav_upload:
-                startActivity(new Intent(this, MyItemsActivity.class));
+                startActivity(new Intent(this, MyProductsActivity.class));
                 overridePendingTransition(0, 0);
                 break;
 

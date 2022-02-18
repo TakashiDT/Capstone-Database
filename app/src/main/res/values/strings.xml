@@ -14,7 +14,7 @@
 
     <!-- NAV -->
     <string name="menu_home">Home</string>
-    <string name="menu_upload">My Items</string>
+    <string name="menu_upload">My Products</string>
     <string name="menu_profile">My Profile</string>
     <string name="menu_category">Categories</string>
     <string name="menu_logout">Log Out</string>
@@ -49,4 +49,13 @@
     <string name="categoriesTitle">categories</string>
     <string name="username">username</string>
     <string name="Username">Username</string>
+
+    <!-- ADD PRODUCTS SPINNER-->
+    <string-array name="chooseCategory">
+        <item>Meat</item>
+        <item>Vegetables</item>
+        <item>Fish</item>
+        <item>Dairy Products</item>
+        <item>Bread</item>
+    </string-array>
 </resources>
