@@ -4,9 +4,7 @@ import androidx.annotation.NonNull;
 
 import android.os.Bundle;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.capstone_project_redo.CreateAccount;
 import com.example.capstone_project_redo.DrawerBaseActivity;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.databinding.ActivityMyProfileBinding;
@@ -17,9 +15,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MyProfileActivity extends DrawerBaseActivity {
 
@@ -37,6 +32,7 @@ public class MyProfileActivity extends DrawerBaseActivity {
         setContentView(activityMyProfileBinding.getRoot());
         allocateActivityTitle("Profile");
 
+        // Firebase Data
         profileUser = findViewById(R.id.tv_profileUser);
         profileFullName = findViewById(R.id.tv_profileFullName);
         profileAge = findViewById(R.id.tv_profileAge);

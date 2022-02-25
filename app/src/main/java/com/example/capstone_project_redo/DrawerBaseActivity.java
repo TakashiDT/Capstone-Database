@@ -13,9 +13,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.capstone_project_redo.nav.AboutActivity;
 import com.example.capstone_project_redo.nav.CategoryActivity;
 import com.example.capstone_project_redo.nav.MyProductsActivity;
 import com.example.capstone_project_redo.nav.MyProfileActivity;
+import com.example.capstone_project_redo.nav.SRPActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -70,6 +72,16 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
 
             case R.id.nav_upload:
                 startActivity(new Intent(this, MyProductsActivity.class));
+                overridePendingTransition(0, 0);
+                break;
+
+            case R.id.nav_dtisrp:
+                startActivity(new Intent(this, SRPActivity.class));
+                overridePendingTransition(0, 0);
+                break;
+
+            case R.id.nav_about:
+                startActivity(new Intent(this, AboutActivity.class));
                 overridePendingTransition(0, 0);
                 break;
 

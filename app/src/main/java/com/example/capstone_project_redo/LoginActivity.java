@@ -30,7 +30,7 @@ public class LoginActivity extends AppCompatActivity {
         createAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(LoginActivity.this, CreateAccount.class));
+                startActivity(new Intent(LoginActivity.this, CreateAccountPart1.class));
             }
         });
 
@@ -50,9 +50,9 @@ public class LoginActivity extends AppCompatActivity {
             startActivity(new Intent(LoginActivity.this, HomePage.class));
         }
 
-        final EditText email = findViewById(R.id.username);
+        final EditText email = findViewById(R.id.login_email);
         final EditText password = findViewById(R.id.login_password);
-        final Button loginBtn = findViewById(R.id.logInBtn);
+        final Button loginBtn = findViewById(R.id.btn_continue);
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {

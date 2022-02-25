@@ -21,6 +21,14 @@
             android:title="@string/menu_upload"
             android:icon="@drawable/ic_category" />
         <item
+            android:id="@+id/nav_dtisrp"
+            android:title="@string/menu_dtisrp"
+            android:icon="@drawable/ic_dti_srp" />
+        <item
+            android:id="@+id/nav_about"
+            android:title="@string/menu_about"
+            android:icon="@drawable/ic_about" />
+        <item
             android:id="@+id/nav_logout"
             android:title="@string/menu_logout"
             android:icon="@drawable/ic_login" />

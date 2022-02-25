@@ -14,7 +14,7 @@ import com.example.capstone_project_redo.R;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class MyListAdapter extends FirebaseRecyclerAdapter<MyListProducts, MyListAdapter.myViewHolder> {
+public class MyListAdapter extends FirebaseRecyclerAdapter<MyListModel, MyListAdapter.myViewHolder> {
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -22,12 +22,12 @@ public class MyListAdapter extends FirebaseRecyclerAdapter<MyListProducts, MyLis
      *
      * @param options
      */
-    public MyListAdapter(@NonNull FirebaseRecyclerOptions<MyListProducts> options) {
+    public MyListAdapter(@NonNull FirebaseRecyclerOptions<MyListModel> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull MyListProducts model) {
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull MyListModel model) {
         holder.id.setText(model.getId());
         holder.name.setText(model.getName());
         holder.category.setText(model.getCategory());

@@ -26,7 +26,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <Button
-        android:id="@+id/btn_selectImage"
+        android:id="@+id/btn_registerSelectImg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="@+id/iv_addProductImage" />
 
     <Button
-        android:id="@+id/btn_clearImage"
+        android:id="@+id/btn_registerClearImg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
@@ -51,7 +51,7 @@
         android:backgroundTint="@color/main_color"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/iv_addProductImage"
-        app:layout_constraintTop_toBottomOf="@+id/btn_selectImage" />
+        app:layout_constraintTop_toBottomOf="@+id/btn_registerSelectImg" />
 
     <Button
         android:id="@+id/btn_uploadImage"

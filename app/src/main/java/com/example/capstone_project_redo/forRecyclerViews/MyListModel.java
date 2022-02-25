@@ -1,14 +1,14 @@
 package com.example.capstone_project_redo.forRecyclerViews;
 
-public class MyListProducts {
+public class MyListModel {
     String id, name, category, imageUrl;
 
-    MyListProducts()
+    MyListModel()
     {
 
     }
 
-    public MyListProducts(String id, String name, String category, String imageUrl) {
+    public MyListModel(String id, String name, String category, String imageUrl) {
         this.id = id;
         this.name = name;
         this.category = category;
