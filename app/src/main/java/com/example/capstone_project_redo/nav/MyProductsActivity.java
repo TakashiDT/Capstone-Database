@@ -12,7 +12,7 @@ import com.example.capstone_project_redo.DrawerBaseActivity;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.databinding.ActivityMyProductsBinding;
 import com.example.capstone_project_redo.forRecyclerViews.MyListAdapter;
-import com.example.capstone_project_redo.forRecyclerViews.MyListProducts;
+import com.example.capstone_project_redo.forRecyclerViews.MyListModel;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -61,9 +61,9 @@ public class MyProductsActivity extends DrawerBaseActivity {
         myList.setHasFixedSize(true);
         myList.setLayoutManager(new LinearLayoutManager(this));
 
-        FirebaseRecyclerOptions<MyListProducts> options =
-                new FirebaseRecyclerOptions.Builder<MyListProducts>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser), MyListProducts.class)
+        FirebaseRecyclerOptions<MyListModel> options =
+                new FirebaseRecyclerOptions.Builder<MyListModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser), MyListModel.class)
                         .build();
 
 

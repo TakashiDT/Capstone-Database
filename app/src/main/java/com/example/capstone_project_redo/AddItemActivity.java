@@ -9,12 +9,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,7 +29,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -58,8 +55,8 @@ public class AddItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_item);
 
 
-        selectImageBtn = findViewById(R.id.btn_selectImage);
-        clearImageBtn = findViewById(R.id.btn_clearImage);
+        selectImageBtn = findViewById(R.id.btn_registerSelectImg);
+        clearImageBtn = findViewById(R.id.btn_registerClearImg);
         addProductImage = findViewById(R.id.iv_addProductImage);
         uploadImageBtn = findViewById(R.id.btn_uploadImage);
         //Spinner chooseCategory = (Spinner)findViewById(R.id.spinnerCategory);
