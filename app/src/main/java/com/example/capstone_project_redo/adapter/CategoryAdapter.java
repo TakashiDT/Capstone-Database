@@ -1,7 +1,5 @@
-package com.example.capstone_project_redo.forRecyclerViews;
+package com.example.capstone_project_redo.adapter;
 
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +10,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.capstone_project_redo.InsideCategoryActivity;
 import com.example.capstone_project_redo.R;
-import com.example.capstone_project_redo.nav.CategoryActivity;
+import com.example.capstone_project_redo.model.CategoryModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
@@ -22,6 +19,8 @@ import java.util.ArrayList;
 
 public class CategoryAdapter extends FirebaseRecyclerAdapter<CategoryModel, CategoryAdapter.categoryViewHolder> {
 
+    private ArrayList<CategoryModel> mCategory = new ArrayList<>();
+    private OnCategoryListener mOnCategoryListener;
 
     /**
      * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
@@ -29,8 +28,9 @@ public class CategoryAdapter extends FirebaseRecyclerAdapter<CategoryModel, Cate
      *
      * @param options
      */
-    public CategoryAdapter(@NonNull FirebaseRecyclerOptions<CategoryModel> options) {
+    public CategoryAdapter(@NonNull OnCategoryListener mOnCategoryListener, FirebaseRecyclerOptions<CategoryModel> options) {
         super(options);
+        this.mOnCategoryListener = mOnCategoryListener;
     }
 
     @Override
@@ -46,21 +46,33 @@ public class CategoryAdapter extends FirebaseRecyclerAdapter<CategoryModel, Cate
     @Override
     public categoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.viewholder_category, parent, false);
-        return new categoryViewHolder(view);
+        return new categoryViewHolder(view, mOnCategoryListener);
     }
 
 
-    public class categoryViewHolder extends RecyclerView.ViewHolder {
+    public class categoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         ImageView imageUrl;
         TextView name;
+        OnCategoryListener onCategoryListener;
 
-        public categoryViewHolder(@NonNull View itemView) {
+        public categoryViewHolder(@NonNull View itemView, OnCategoryListener onCategoryListener) {
             super(itemView);
 
             name = (TextView)itemView.findViewById(R.id.tv_categoryName);
             imageUrl = (ImageView)itemView.findViewById(R.id.iv_categoryImage);
+            this.onCategoryListener = onCategoryListener;
 
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View view) {
+            onCategoryListener.onCategoryClick(getAbsoluteAdapterPosition());
+        }
+    }
+
+    public interface OnCategoryListener {
+        void onCategoryClick(int position);
     }
 }

@@ -11,8 +11,8 @@ import com.example.capstone_project_redo.AddItemActivity;
 import com.example.capstone_project_redo.DrawerBaseActivity;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.databinding.ActivityMyProductsBinding;
-import com.example.capstone_project_redo.forRecyclerViews.MyListAdapter;
-import com.example.capstone_project_redo.forRecyclerViews.MyListModel;
+import com.example.capstone_project_redo.adapter.MyListAdapter;
+import com.example.capstone_project_redo.model.MyListModel;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -53,8 +53,14 @@ public class MyProductsActivity extends DrawerBaseActivity {
     protected void onStart() {
         super.onStart();
         myListAdapter.startListening();
+        myListAdapter.notifyDataSetChanged();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        myListAdapter.stopListening();
+    }
 
     private void loadData() {
         myList = findViewById(R.id.lv_myProducts);

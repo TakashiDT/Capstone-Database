@@ -1,4 +1,4 @@
-package com.example.capstone_project_redo.forRecyclerViews;
+package com.example.capstone_project_redo.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.capstone_project_redo.R;
+import com.example.capstone_project_redo.model.MyListModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
@@ -28,9 +29,10 @@ public class MyListAdapter extends FirebaseRecyclerAdapter<MyListModel, MyListAd
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull MyListModel model) {
-        holder.id.setText(model.getId());
         holder.name.setText(model.getName());
         holder.category.setText(model.getCategory());
+        holder.price.setText(model.getPrice());
+        holder.priceExtension.setText(model.getPriceExtension());
 
         Glide.with(holder.imageUrl.getContext())
                 .load(model.getImageUrl())
@@ -47,14 +49,15 @@ public class MyListAdapter extends FirebaseRecyclerAdapter<MyListModel, MyListAd
     class myViewHolder extends RecyclerView.ViewHolder {
 
         ImageView imageUrl;
-        TextView id, name, category;
+        TextView name, category, price, priceExtension;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            id = (TextView)itemView.findViewById(R.id.tv_myProductId);
             name = (TextView)itemView.findViewById(R.id.tv_myProductName);
             category = (TextView)itemView.findViewById(R.id.tv_myProductCategory);
+            price = (TextView)itemView.findViewById(R.id.tv_myProductPrice);
+            priceExtension = (TextView)itemView.findViewById(R.id.tv_myProductPriceEx);
             imageUrl = (ImageView)itemView.findViewById(R.id.iv_myProductImage);
         }
     }
