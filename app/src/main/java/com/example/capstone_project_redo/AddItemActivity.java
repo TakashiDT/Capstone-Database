@@ -272,17 +272,17 @@ public class AddItemActivity extends AppCompatActivity {
                                     databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("categorySub").setValue(subCatItem);
                                 }
                                 else {
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("id").setValue(currentUser);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("productId").setValue(productKey);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("name").setValue(productNameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("seller").setValue(usernameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("price").setValue(productPriceTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("description").setValue(productDescTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("imageUrl").setValue(productImageUrl);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("category").setValue(mainCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("categorySub").setValue(subCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("categorySub2").setValue(subCat2Item);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("categorySub").setValue(subCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("categorySub2").setValue(subCat2Item);
 
                                     // TO MIXED
                                     databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("id").setValue(currentUser);
@@ -365,7 +365,7 @@ public class AddItemActivity extends AppCompatActivity {
         });
 
         List<String> mainCategoryList = new ArrayList<>();
-        Collections.addAll(mainCategoryList, "Select Category","Food","Household Necessities","Crafted Goods");
+        Collections.addAll(mainCategoryList, "Select Category","Food","Household Essentials","Crafted Goods");
 
         // THE MAIN CATEGORY
         ArrayAdapter<String> mainCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mainCategoryList);
@@ -396,7 +396,7 @@ public class AddItemActivity extends AppCompatActivity {
                     subCategoryList.clear();
                     subCategory.setVisibility(View.GONE);
                     subCategory2.setVisibility(View.GONE);
-                    mainCatItem = "Household Items";
+                    mainCatItem = "Household Essentials";
                 }
                 else if (i==3) {
                     dropDownCheck = "f";
@@ -432,7 +432,7 @@ public class AddItemActivity extends AppCompatActivity {
                             }
                             else if (i == 1) {
                                 subCategory2List.clear();
-                                Collections.addAll(subCategory2List, "Select Meat Category","Chicken","Pork","Beef","Goat");
+                                Collections.addAll(subCategory2List, "Select Meat Category","Chicken","Pork","Beef");
                                 subCategory2.setVisibility(View.VISIBLE);
                                 subCategoryMeatFill();
                                 subCatItem = "Meat";
@@ -490,9 +490,6 @@ public class AddItemActivity extends AppCompatActivity {
                                         }
                                         else if (i == 3) {
                                             subCat2Item = "Beef";
-                                        }
-                                        else if (i == 4) {
-                                            subCat2Item = "Goat";
                                         }
                                     }
 

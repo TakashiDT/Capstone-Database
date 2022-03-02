@@ -68,7 +68,7 @@ public class CraftedGoods extends DrawerBaseActivity implements CraftedGoodsAdap
 
         FirebaseRecyclerOptions<CraftedGoodsModel> options =
                 new FirebaseRecyclerOptions.Builder<CraftedGoodsModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Crafted Goods"), CraftedGoodsModel.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Crafted Goods").child("mixed"), CraftedGoodsModel.class)
                         .build();
 
 

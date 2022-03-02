@@ -11,7 +11,7 @@ import com.example.capstone_project_redo.DrawerBaseActivity;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.category.CraftedGoods;
 import com.example.capstone_project_redo.category.Food;
-import com.example.capstone_project_redo.category.HouseholdNecessities;
+import com.example.capstone_project_redo.category.HouseholdEssentials;
 import com.example.capstone_project_redo.databinding.ActivityCategoryBinding;
 import com.example.capstone_project_redo.adapter.CategoryAdapter;
 import com.example.capstone_project_redo.model.CategoryModel;
@@ -83,7 +83,7 @@ public class CategoryActivity extends DrawerBaseActivity implements CategoryAdap
                 finish();
                 break;
             case 2:
-                Intent householdNecessitiesIntent = new Intent(this, HouseholdNecessities.class);
+                Intent householdNecessitiesIntent = new Intent(this, HouseholdEssentials.class);
                 startActivity(householdNecessitiesIntent);
                 finish();
                 break;

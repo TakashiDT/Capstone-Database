@@ -1,11 +1,15 @@
 package com.example.capstone_project_redo.nav;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.SearchView;
 
 import com.example.capstone_project_redo.AddItemActivity;
 import com.example.capstone_project_redo.DrawerBaseActivity;
@@ -76,4 +80,116 @@ public class MyProductsActivity extends DrawerBaseActivity {
         myListAdapter = new MyListAdapter(options);
         myList.setAdapter(myListAdapter);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.my_products_filter, menu);
+        MenuItem item = menu.findItem(R.id.search);
+        SearchView searchView = (SearchView) item.getActionView();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                txtSearch(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+                txtSearch(query);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    private void txtSearch(String str) {
+
+        FirebaseRecyclerOptions<MyListModel> options =
+                new FirebaseRecyclerOptions.Builder<MyListModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser)
+                                .orderByChild("name").startAt(str).endAt(str+"~"), MyListModel.class)
+                        .build();
+        myListAdapter = new MyListAdapter(options);
+        myListAdapter.startListening();
+        myList.setAdapter(myListAdapter);
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.filterShowAll:
+                filterShowAll();
+                return true;
+
+            case R.id.filterFood:
+                String food = "Food";
+                filterFood(food);
+                return true;
+
+            case R.id.filterCrafts:
+                String crafts = "Crafted Goods";
+                filterCrafts(crafts);
+                return true;
+
+            case R.id.filterHousehold:
+                String house = "Household Essentials";
+                filterHousehold(house);
+                return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void filterShowAll() {
+        FirebaseRecyclerOptions<MyListModel> options =
+                new FirebaseRecyclerOptions.Builder<MyListModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser), MyListModel.class)
+                        .build();
+        myListAdapter = new MyListAdapter(options);
+        myListAdapter.startListening();
+        myList.setAdapter(myListAdapter);
+    }
+
+    private void filterFood(String str) {
+        FirebaseRecyclerOptions<MyListModel> options =
+                new FirebaseRecyclerOptions.Builder<MyListModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser)
+                                .orderByChild("category").equalTo(str), MyListModel.class)
+                        .build();
+        myListAdapter = new MyListAdapter(options);
+        myListAdapter.startListening();
+        myList.setAdapter(myListAdapter);
+
+    }
+
+    private void filterCrafts(String str) {
+        FirebaseRecyclerOptions<MyListModel> options =
+                new FirebaseRecyclerOptions.Builder<MyListModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser)
+                                .orderByChild("category").equalTo(str), MyListModel.class)
+                        .build();
+        myListAdapter = new MyListAdapter(options);
+        myListAdapter.startListening();
+        myList.setAdapter(myListAdapter);
+
+    }
+
+    private void filterHousehold(String str) {
+        FirebaseRecyclerOptions<MyListModel> options =
+                new FirebaseRecyclerOptions.Builder<MyListModel>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser)
+                                .orderByChild("category").equalTo(str), MyListModel.class)
+                        .build();
+        myListAdapter = new MyListAdapter(options);
+        myListAdapter.startListening();
+        myList.setAdapter(myListAdapter);
+
+    }
+
 }

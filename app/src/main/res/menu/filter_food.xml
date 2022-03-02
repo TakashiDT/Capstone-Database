@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/searchFood"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"/>
+
+    <item
+        android:id="@+id/filterShowAllFood"
+        android:title="Show All"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/filterMeat"
+        android:title="Meat Only"
+        app:showAsAction="collapseActionView" />
+
+        <group android:id="@+id/group_meat">
+            <item
+                android:id="@+id/itemChicken"
+                android:title="Chicken"
+                app:showAsAction="collapseActionView"/>
+            <item
+                android:id="@+id/itemPork"
+                android:title="Pork"
+                app:showAsAction="collapseActionView"/>
+            <item
+                android:id="@+id/itemBeef"
+                android:title="Beef"
+                app:showAsAction="collapseActionView"/>
+        </group>
+    <item
+        android:id="@+id/filterProcessed"
+        android:title="Processed Food Only"
+        app:showAsAction="collapseActionView"/>
+        <group android:id="@+id/group_processed">
+            <item
+                android:id="@+id/itemFrozen"
+                android:title="Frozen Food"
+                app:showAsAction="collapseActionView"/>
+            <item
+                android:id="@+id/itemCanned"
+                android:title="Canned Goods"
+                app:showAsAction="collapseActionView"/>
+        </group>
+    <item
+        android:id="@+id/filterSeafood"
+        android:title="Seafood Only"
+        app:showAsAction="collapseActionView"/>
+        <group android:id="@+id/group_seafood">
+            <item
+                android:id="@+id/itemFish"
+                android:title="Fish"
+                app:showAsAction="collapseActionView"/>
+            <item
+                android:id="@+id/itemShellfish"
+                android:title="Shellfish"
+                app:showAsAction="collapseActionView"/>
+        </group>
+    <item
+        android:id="@+id/filterFruits"
+        android:title="Fruits Only"
+        app:showAsAction="collapseActionView"/>
+    <item
+        android:id="@+id/filterVegetables"
+        android:title="Vegetables Only"
+        app:showAsAction="collapseActionView"/>
+
+</menu>

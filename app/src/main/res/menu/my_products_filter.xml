@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/search"
+        android:icon="@drawable/ic_search"
+        android:title="Search"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"/>
+
+    <item
+        android:id="@+id/filterShowAll"
+        android:title="Show All"
+        app:showAsAction="collapseActionView"/>
+    <item
+        android:id="@+id/filterFood"
+        android:title="Food Only"
+        app:showAsAction="collapseActionView"/>
+    <item
+        android:id="@+id/filterCrafts"
+        android:title="Crafts Goods Only"
+        app:showAsAction="collapseActionView"/>
+    <item
+        android:id="@+id/filterHousehold"
+        android:title="Household Essentials Only"
+        app:showAsAction="collapseActionView"/>
+</menu>
