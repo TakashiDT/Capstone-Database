@@ -12,8 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone_Project_Redo">
         <activity android:name=".category.DisplayCraftedGoods"></activity>
-        <activity android:name=".category.FilterProducts" />
-        <activity android:name=".category.HouseholdNecessities" />
+        <activity android:name=".category.HouseholdEssentials" />
         <activity android:name=".category.Food" />
         <activity android:name=".category.CraftedGoods" />
         <activity android:name=".CreateAccountPart1" />

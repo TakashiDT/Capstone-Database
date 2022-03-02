@@ -86,8 +86,6 @@ public class MyProfileActivity extends DrawerBaseActivity {
                 String email = (String) snapshot.child("EmailAddress").getValue();
                 String url = (String) snapshot.child("ImageProfile").getValue();
 
-
-
                 profileUser.setText(username);
                 profileFullName.setText(fullName);
                 profileAge.setText(age);

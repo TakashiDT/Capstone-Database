@@ -100,6 +100,7 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_profile).setVisible(false);
         nav_Menu.findItem(R.id.nav_upload).setVisible(false);
+        invalidateOptionsMenu();
     }
 
     protected void allocateActivityTitle(String titleString) {

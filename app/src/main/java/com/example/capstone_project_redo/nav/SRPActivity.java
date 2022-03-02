@@ -6,17 +6,17 @@ import android.os.Bundle;
 
 import com.example.capstone_project_redo.DrawerBaseActivity;
 import com.example.capstone_project_redo.databinding.ActivityAboutBinding;
-import com.example.capstone_project_redo.databinding.ActivitySRPBinding;
+import com.example.capstone_project_redo.databinding.ActivitySrpBinding;
 
 public class SRPActivity extends DrawerBaseActivity {
 
-    ActivitySRPBinding activity_s_r_p;
+    ActivitySrpBinding activity_srp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity_s_r_p = ActivitySRPBinding.inflate(getLayoutInflater());
-        setContentView(activity_s_r_p.getRoot());
+        activity_srp = ActivitySrpBinding.inflate(getLayoutInflater());
+        setContentView(activity_srp.getRoot());
         allocateActivityTitle("DTI's List of SRP's");
     }
 }

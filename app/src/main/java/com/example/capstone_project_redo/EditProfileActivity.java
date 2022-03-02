@@ -148,9 +148,10 @@ public class EditProfileActivity extends AppCompatActivity {
                                 databaseReference.child("Province").setValue(province_edit);
                                 databaseReference.child("Username").setValue(username_edit);
                                 Toast.makeText(EditProfileActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                                if (imageProofUrl != null) {
+                                if (stringGlide == null) {
                                     uploadImage();
                                 }
+
 
                                 ProfileTransition();
                             }
@@ -176,7 +177,7 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user != null) {
             String uid = user.getUid();
 
-            uItemStorageRef = FirebaseStorage.getInstance().getReference("users/" + uid +"/"+"Profile/" +profileKey);
+            uItemStorageRef = FirebaseStorage.getInstance().getReference("users/" + uid +"/"+"Profile/"+profileKey);
             uItemStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

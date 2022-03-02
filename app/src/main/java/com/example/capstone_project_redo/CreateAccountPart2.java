@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.capstone_project_redo.category.Food;
+import com.example.capstone_project_redo.nav.CategoryActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -119,7 +121,7 @@ public class CreateAccountPart2 extends AppCompatActivity {
             }
         });
     }
-    
+
     private void deleteUser(String email, String password) {
 
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -147,5 +149,16 @@ public class CreateAccountPart2 extends AppCompatActivity {
                         }
                     });
         }
+    }
+    @Override
+    public void onBackPressed() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String emailTxt = extras.getString("email");
+            String passwordTxt = extras.getString("password");
+            deleteUser(emailTxt, passwordTxt);
+        }
+        startActivity(new Intent(CreateAccountPart2.this, CreateAccountPart1.class));
+        finish();
     }
 }
