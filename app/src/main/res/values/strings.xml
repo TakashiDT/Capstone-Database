@@ -52,14 +52,33 @@
     <string name="username">username</string>
     <string name="Username">Username</string>
 
-    <!-- ADD PRODUCTS SPINNER-->
-    <string-array name="chooseCategory">
-        <item>Meat</item>
-        <item>Vegetables</item>
-        <item>Fish</item>
-        <item>Dairy Products</item>
-        <item>Bread</item>
+    <!-- MAIN CATEGORY-->
+    <string name="select">Select Item</string>
+    <string-array name="mainCategory">
+        <item>Food</item>
+        <item>Household Items</item>
+        <item>Crafted Goods</item>
     </string-array>
+    <!-- SUB CATEGORY-->
+    <!-- FOOD-->
+    <string-array name="subCatFood">
+        <item>Fruits</item>
+        <item>Vegetables</item>
+        <item>Meat</item>
+    </string-array>
+    <!-- HOUSEHOLD ITEMS-->
+    <string-array name="subCatHouse">
+        <item>Fruits</item>
+        <item>Vegetables</item>
+        <item>Meat</item>
+    </string-array>
+    <!-- CRAFTED GOODS-->
+    <string-array name="subCatCraft">
+        <item>Fruits</item>
+        <item>Vegetables</item>
+        <item>Meat</item>
+    </string-array>
+
     <string name="title_activity_edit_profile">EditProfileActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

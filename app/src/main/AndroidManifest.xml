@@ -11,21 +11,26 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone_Project_Redo">
-        <activity android:name=".nav.SRPActivity"></activity>
-        <activity android:name=".nav.AboutActivity" />
+        <activity android:name=".category.DisplayCraftedGoods"></activity>
+        <activity android:name=".category.FilterProducts" />
+        <activity android:name=".category.HouseholdNecessities" />
+        <activity android:name=".category.Food" />
+        <activity android:name=".category.CraftedGoods" />
         <activity android:name=".CreateAccountPart1" />
-        <activity android:name=".AddItemActivity" />
-        <activity android:name=".nav.MyProfileActivity" />
-        <activity android:name=".InsideCategoryActivity" />
+        <activity android:name=".CreateAccountPart2" />
         <activity android:name=".LoginActivity" />
+        <activity android:name=".AddItemActivity" />
+        <activity android:name=".nav.SRPActivity" />
+        <activity android:name=".nav.AboutActivity" />
         <activity android:name=".nav.MyProductsActivity" />
         <activity android:name=".nav.CategoryActivity" />
+        <activity android:name=".nav.MyProfileActivity" />
+        <activity android:name=".EditProfileActivity" />
         <activity android:name=".DrawerBaseActivity" />
         <activity
             android:name=".HomePage"
             android:label="@string/title_activity_home_page"
             android:theme="@style/Theme.Capstone_Project_Redo.NoActionBar" />
-        <activity android:name=".CreateAccountPart2" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

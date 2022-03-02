@@ -5,14 +5,18 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -29,13 +33,17 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class AddItemActivity extends AppCompatActivity {
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference;
+    DatabaseReference userNameRef;
     StorageReference uItemStorageRef;
     Uri imageUri;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -44,8 +52,14 @@ public class AddItemActivity extends AppCompatActivity {
 
     ProgressDialog imageUploadProgress;
 
-    EditText productName, productCategory;
+    Spinner mainCategory, subCategory, subCategory2, priceExtension;
+    List<String> subCategoryList = new ArrayList<>();
+    List<String> subCategory2List = new ArrayList<>();
 
+    EditText productName, productPrice, productDescription;
+    String mainCatItem, subCatItem, subCat2Item, priceExtensionTxt;
+    String dropDownCheck, dropDownCheck2;
+    //Boolean subCatBool = false, subCat2Bool = false;
     Button selectImageBtn, clearImageBtn, uploadImageBtn;
     ImageView addProductImage;
 
@@ -54,12 +68,12 @@ public class AddItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_item);
 
-
         selectImageBtn = findViewById(R.id.btn_registerSelectImg);
         clearImageBtn = findViewById(R.id.btn_registerClearImg);
         addProductImage = findViewById(R.id.iv_addProductImage);
         uploadImageBtn = findViewById(R.id.btn_uploadImage);
-        //Spinner chooseCategory = (Spinner)findViewById(R.id.spinnerCategory);
+
+        itemCategories();
 
         selectImageBtn.setOnClickListener(v -> mGetImage.launch("image/*"));
         clearImageBtn.setOnClickListener(new View.OnClickListener() {
@@ -75,26 +89,46 @@ public class AddItemActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 productName = findViewById(R.id.et_productName);
-                productCategory = findViewById(R.id.et_productCategory);
+                productPrice = findViewById(R.id.et_productPrice);
+                productDescription = findViewById(R.id.et_productDescription);
                 String productNameTxt = productName.getText().toString();
-                String productCategoryTxt = productCategory.getText().toString();
+                String productPriceTxt = productPrice.getText().toString();
+                String productDescTxt = productDescription.getText().toString();
 
-                if (addProductImage == null) {
-                    Toast.makeText(AddItemActivity.this,"Please Choose a photo",Toast.LENGTH_SHORT).show();
+                if (addProductImage.getDrawable() == null) {
+                    Toast.makeText(AddItemActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
                 }
                 else {
-
-                    if (productNameTxt.isEmpty() && productCategoryTxt.isEmpty()) {
+                    if (productNameTxt.isEmpty() || productPriceTxt.isEmpty() || productDescTxt.isEmpty() || mainCatItem==null || priceExtensionTxt==null) {
                         Toast.makeText(AddItemActivity.this,"Fill in all fields",Toast.LENGTH_SHORT).show();
                     }
+                    else if (dropDownCheck.equals("t")) {
+                        if (subCatItem == null) {
+                            Toast.makeText(AddItemActivity.this, "Select a SubCategory", Toast.LENGTH_SHORT).show();
+                        }
+                        else if (dropDownCheck2.equals("t")){
+                            if (subCat2Item == null) {
+                                Toast.makeText(AddItemActivity.this, "Select a Category inside of SubCategory", Toast.LENGTH_SHORT).show();
+                            }
+                            else {
+                                uploadData();
+                            }
+                        }
+                        else {
+                            uploadData();
+                        }
+                    }
                     else {
-                        uploadImage();
+                        uploadData();
+                        /*
                         addProductImage.setImageURI(null);
                         productName.setText(null);
-                        productCategory.setText(null);
+                        productPrice.setText(null);
+                        productDescription.setText(null);
+
+                         */
                     }
                 }
-
             }
         });
     }
@@ -113,16 +147,18 @@ public class AddItemActivity extends AppCompatActivity {
                 }
             });
 
-    private void uploadImage() {
+    private void uploadData() {
 
         imageUploadProgress = new ProgressDialog(this);
         imageUploadProgress.setTitle("Uploading File...");
         imageUploadProgress.show();
 
         productName = findViewById(R.id.et_productName);
-        productCategory = findViewById(R.id.et_productCategory);
+        productPrice = findViewById(R.id.et_productPrice);
+        productDescription = findViewById(R.id.et_productDescription);
         String productNameTxt = productName.getText().toString();
-        String productCategoryTxt = productCategory.getText().toString();
+        String productPriceTxt = productPrice.getText().toString();
+        String productDescTxt = productDescription.getText().toString();
 
         SimpleDateFormat imageFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss", Locale.US);
         Date now = new Date();
@@ -139,7 +175,6 @@ public class AddItemActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(Uri uri) {
                         productImageUrl = uri.toString();
-                        databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
 
                         // Checks the database for children as integers, starts from 0 onwards.
                         DatabaseReference productsRef = database.getReference().child("products").child("1allID").child(currentUser);
@@ -159,14 +194,116 @@ public class AddItemActivity extends AppCompatActivity {
                                 Toast.makeText(AddItemActivity.this,"Failed to upload product",Toast.LENGTH_SHORT).show();
                             }
                         });
+                        // UPLOADS DATA TO "PRODUCTS"
+                        databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
 
-
-                        databaseReference.child("products").child(currentUser).child(productKey).child("id").setValue(productKey);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("productId").setValue(productKey);
                         databaseReference.child("products").child(currentUser).child(productKey).child("name").setValue(productNameTxt);
-                        databaseReference.child("products").child(currentUser).child(productKey).child("category").setValue(productCategoryTxt);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("price").setValue(productPriceTxt);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                        databaseReference.child("products").child(currentUser).child(productKey).child("description").setValue(productDescTxt);
                         databaseReference.child("products").child(currentUser).child(productKey).child("imageUrl").setValue(productImageUrl);
                         databaseReference.child("products").child(currentUser).child(productKey).child("dateUploaded").setValue(filename);
+                        if (subCatItem == null && subCat2Item == null) {
+                            databaseReference.child("products").child(currentUser).child(productKey).child("category").setValue(mainCatItem);
+                        }
+                        else if (subCatItem != null && subCat2Item == null) {
+                            databaseReference.child("products").child(currentUser).child(productKey).child("category1").setValue(mainCatItem);
+                            databaseReference.child("products").child(currentUser).child(productKey).child("category").setValue(subCatItem);
+                        }
+                        else {
+                            databaseReference.child("products").child(currentUser).child(productKey).child("category").setValue(mainCatItem);
+                            databaseReference.child("products").child(currentUser).child(productKey).child("categorySub").setValue(subCatItem);
+                            databaseReference.child("products").child(currentUser).child(productKey).child("categorySub2").setValue(subCat2Item);
+                        }
                         Toast.makeText(AddItemActivity.this,"Successfully Uploaded Data",Toast.LENGTH_SHORT).show();
+
+
+                        userNameRef = database.getReference("users").child(user.getUid());
+                        userNameRef.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                String usernameTxt = (String) snapshot.child("Username").getValue();
+
+                                if (subCatItem == null && subCat2Item == null) {
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("category").setValue(mainCatItem);
+
+                                    // TO MIXED
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("category").setValue(mainCatItem);
+                                }
+                                else if (subCatItem != null && subCat2Item == null) {
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("categorySub").setValue(subCatItem);
+
+                                    // TO MIXED
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("categorySub").setValue(subCatItem);
+                                }
+                                else {
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("categorySub").setValue(subCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(subCat2Item).child(productKey).child("categorySub2").setValue(subCat2Item);
+
+                                    // TO MIXED
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("categorySub").setValue(subCatItem);
+                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("categorySub2").setValue(subCat2Item);
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 });
                 if (imageUploadProgress.isShowing()) {
@@ -183,8 +320,238 @@ public class AddItemActivity extends AppCompatActivity {
                 Toast.makeText(AddItemActivity.this,"Failed to Upload Data",Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
+    public void itemCategories() {
+
+        //Spinner
+        priceExtension = findViewById(R.id.spinner_priceExtension);
+        mainCategory = findViewById(R.id.spinner_mainCategory);
+        subCategory = findViewById(R.id.spinner_subCategory);
+        subCategory2 = findViewById(R.id.spinner_subCategory2);
+        subCategory.setVisibility(View.GONE); subCategory2.setVisibility(View.GONE);
+
+        List<String> priceExtensionList = new ArrayList<>();
+        Collections.addAll(priceExtensionList, "Select Price Extension","per kg","per pc","per bag","per box");
+        // PRICE EXTENSION
+        ArrayAdapter<String> priceExtensionAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, priceExtensionList);
+        priceExtensionAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        priceExtension.setAdapter(priceExtensionAdapter);
+        priceExtension.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    Toast.makeText(AddItemActivity.this, "Please Select a Price Extension", Toast.LENGTH_SHORT).show();
+                    priceExtensionTxt = null;
+                }
+                else if (i == 1) {
+                    priceExtensionTxt = "per kg";
+                }
+                else if (i == 2) {
+                    priceExtensionTxt = "per pc";
+                }
+                else if (i == 3) {
+                    priceExtensionTxt = "per bag";
+                }
+                else if (i == 4) {
+                    priceExtensionTxt = "per box";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        List<String> mainCategoryList = new ArrayList<>();
+        Collections.addAll(mainCategoryList, "Select Category","Food","Household Necessities","Crafted Goods");
+
+        // THE MAIN CATEGORY
+        ArrayAdapter<String> mainCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mainCategoryList);
+        mainCatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mainCategory.setAdapter(mainCatAdapter);
+        mainCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (i == 0) {
+                    Toast.makeText(AddItemActivity.this, "Please select a category", Toast.LENGTH_SHORT).show();
+                    dropDownCheck = "f";
+                    dropDownCheck2 = "f";
+                    mainCatItem = null;
+                    subCategoryList.clear();
+                    subCategory.setVisibility(View.GONE);
+                    subCategory2.setVisibility(View.GONE);
+                }
+                else if (i == 1) {
+                    subCategoryList.clear();
+                    Collections.addAll(subCategoryList, "Select Food Category","Meat","Processed Food","Seafood","Fruits","Vegetables");
+                    subCategory.setVisibility(View.VISIBLE);
+                    subCategoryFill();
+                    mainCatItem = "Food";
+                }
+                else if (i==2) {
+                    dropDownCheck = "f";
+                    dropDownCheck2 = "f";
+                    subCategoryList.clear();
+                    subCategory.setVisibility(View.GONE);
+                    subCategory2.setVisibility(View.GONE);
+                    mainCatItem = "Household Items";
+                }
+                else if (i==3) {
+                    dropDownCheck = "f";
+                    dropDownCheck2 = "f";
+                    subCategoryList.clear();
+                    subCategory.setVisibility(View.GONE);
+                    subCategory2.setVisibility(View.GONE);
+                    mainCatItem = "Crafted Goods";
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                Toast.makeText(AddItemActivity.this, "Please select a category", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+                // THE SUBCATEGORY INSIDE MAIN CATEGORY
+                public void subCategoryFill() {
+                    ArrayAdapter<String> subCatAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subCategoryList);
+                    subCatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    subCategory.setAdapter(subCatAdapter);
+                    subCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                            if (i == 0) {
+                                Toast.makeText(AddItemActivity.this, "Please select a subcategory", Toast.LENGTH_SHORT).show();
+                                dropDownCheck = "t";
+                                dropDownCheck2 = "f";
+                                subCatItem = null;
+                                subCategory2List.clear();
+                                subCategory2.setVisibility(View.GONE);
+                            }
+                            else if (i == 1) {
+                                subCategory2List.clear();
+                                Collections.addAll(subCategory2List, "Select Meat Category","Chicken","Pork","Beef","Goat");
+                                subCategory2.setVisibility(View.VISIBLE);
+                                subCategoryMeatFill();
+                                subCatItem = "Meat";
+                            }
+                            else if (i == 2) {
+                                subCategory2List.clear();
+                                Collections.addAll(subCategory2List, "Select Processed Food Category","Frozen","Canned");
+                                subCategory2.setVisibility(View.VISIBLE);
+                                subCategoryProcessFill();
+                                subCatItem = "Processed Food";
+                            }
+                            else if (i == 3) {
+                                subCategory2List.clear();
+                                Collections.addAll(subCategory2List, "Select Seafood Category","Fish","Shellfish");
+                                subCategory2.setVisibility(View.VISIBLE);
+                                subCategorySeaFill();
+                                subCatItem = "Seafood";
+                            }
+                            else if (i==4) {
+                                subCategory2List.clear();
+                                subCategory2.setVisibility(View.GONE);
+                                subCatItem = "Fruits";
+                            }
+                            else if (i==5) {
+                                subCategory2List.clear();
+                                subCategory2.setVisibility(View.GONE);
+                                subCatItem = "Vegetables";
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> adapterView) {
+                            Toast.makeText(AddItemActivity.this, "Please select a subcategory", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                            // THE SUBCATEGORY INSIDE THE SUBCATEGORY
+                            public void subCategoryMeatFill() {
+                                ArrayAdapter<String> subCatAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subCategory2List);
+                                subCatAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                subCategory2.setAdapter(subCatAdapter2);
+                                subCategory2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        if (i == 0) {
+                                            Toast.makeText(AddItemActivity.this, "Please select animal meat", Toast.LENGTH_SHORT).show();
+                                            dropDownCheck2 = "t";
+                                            subCat2Item = null;
+                                        }
+                                        else if (i == 1) {
+                                            subCat2Item = "Chicken";
+                                        }
+                                        else if (i == 2) {
+                                            subCat2Item = "Pork";
+                                        }
+                                        else if (i == 3) {
+                                            subCat2Item = "Beef";
+                                        }
+                                        else if (i == 4) {
+                                            subCat2Item = "Goat";
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                        Toast.makeText(AddItemActivity.this, "Please select animal meat", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            public void subCategoryProcessFill() {
+                                ArrayAdapter<String> subCatAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subCategory2List);
+                                subCatAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                subCategory2.setAdapter(subCatAdapter2);
+                                subCategory2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        if (i == 0) {
+                                            Toast.makeText(AddItemActivity.this, "Please select type of processed food", Toast.LENGTH_SHORT).show();
+                                            dropDownCheck2 = "t";
+                                            subCat2Item = null;
+                                        }
+                                        else if (i == 1) {
+                                            subCat2Item = "Frozen";
+                                        }
+                                        else if (i == 2) {
+                                            subCat2Item = "Canned";
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                        Toast.makeText(AddItemActivity.this, "Please select type of processed food", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+                            public void subCategorySeaFill() {
+                                ArrayAdapter<String> subCatAdapter2 = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subCategory2List);
+                                subCatAdapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                subCategory2.setAdapter(subCatAdapter2);
+                                subCategory2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                    @Override
+                                    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                                        if (i == 0) {
+                                            Toast.makeText(AddItemActivity.this, "Please select type of seafood", Toast.LENGTH_SHORT).show();
+                                            dropDownCheck2 = "t";
+                                            subCat2Item = null;
+                                        }
+                                        else if (i == 1) {
+                                            subCat2Item = "Fish";
+                                        }
+                                        else if (i == 2) {
+                                            subCat2Item = "Shellfish";
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onNothingSelected(AdapterView<?> adapterView) {
+                                        Toast.makeText(AddItemActivity.this, "Please select type of seafood", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
 }

@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -45,7 +44,7 @@ public class CreateAccountPart2 extends AppCompatActivity {
         final EditText mobile = findViewById(R.id.mobile);
         final EditText province = findViewById(R.id.province);
         final EditText municipality = findViewById(R.id.municipality);
-        final EditText locationDesc = findViewById(R.id.locationDesc);
+        final EditText locationDesc = findViewById(R.id.et_productDescription);
         final Button registerBtn = findViewById(R.id.registerBtn);
         final Button cancelBtn = findViewById(R.id.cancelBtn);
 

@@ -197,7 +197,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/province" />
 
                 <EditText
-                    android:id="@+id/locationDesc"
+                    android:id="@+id/et_productDescription"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -234,7 +234,7 @@
                     app:layout_constraintEnd_toStartOf="@+id/registerBtn"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/locationDesc"
+                    app:layout_constraintTop_toBottomOf="@+id/et_productDescription"
                     app:layout_constraintVertical_bias="0.673" />
 
                 <Button
@@ -253,7 +253,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toEndOf="@+id/cancelBtn"
-                    app:layout_constraintTop_toBottomOf="@+id/locationDesc"
+                    app:layout_constraintTop_toBottomOf="@+id/et_productDescription"
                     app:layout_constraintVertical_bias="0.696" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,30 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".nav.MyProductsActivity">
+    tools:context=".category.Food">
 
     <FrameLayout
-        android:id="@+id/myItemsContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:id="@+id/foodContainer"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/lv_myProducts"
+            android:id="@+id/lv_food"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent" >
+
+        </androidx.recyclerview.widget.RecyclerView>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_addItem"
+            android:id="@+id/fab_addFilterF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="20dp"
+            android:src="@drawable/ic_filter"
             android:contentDescription="@string/addItem"
-            android:src="@drawable/ic_add" />
+            android:layout_margin="20dp" />
 
     </FrameLayout>
 

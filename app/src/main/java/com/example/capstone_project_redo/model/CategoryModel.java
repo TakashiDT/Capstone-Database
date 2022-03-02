@@ -1,4 +1,4 @@
-package com.example.capstone_project_redo.forRecyclerViews;
+package com.example.capstone_project_redo.model;
 
 public class CategoryModel {
     String name, imageUrl;

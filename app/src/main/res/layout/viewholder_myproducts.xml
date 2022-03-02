@@ -43,12 +43,24 @@
             android:layout_marginLeft="10dp" />
 
         <TextView
-            android:id="@+id/tv_myProductId"
-            android:layout_width="match_parent"
+            android:id="@+id/tv_myProductPrice"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Product ID"
-            android:textSize="16sp"
+            android:text="Product Price"
+            android:textSize="20sp"
+            android:textColor="@color/red"
             android:layout_toRightOf="@+id/iv_myProductImage"
+            android:layout_below="@+id/tv_myProductCategory"
+            android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/tv_myProductPriceEx"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Extension"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_toRightOf="@+id/tv_myProductPrice"
             android:layout_below="@+id/tv_myProductCategory"
             android:layout_marginLeft="10dp" />
 
