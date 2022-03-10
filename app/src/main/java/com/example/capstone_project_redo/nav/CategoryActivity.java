@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.capstone_project_redo.DrawerBaseActivity;
+import com.example.capstone_project_redo.HomePage;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.category.CraftedGoods;
 import com.example.capstone_project_redo.category.Food;
@@ -88,5 +89,10 @@ public class CategoryActivity extends DrawerBaseActivity implements CategoryAdap
                 finish();
                 break;
         }
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(CategoryActivity.this, HomePage.class));
+        finish();
     }
 }

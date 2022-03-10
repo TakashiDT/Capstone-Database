@@ -2,6 +2,7 @@ package com.example.capstone_project_redo.nav;
 
 import androidx.annotation.NonNull;
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.capstone_project_redo.DrawerBaseActivity;
 import com.example.capstone_project_redo.EditProfileActivity;
+import com.example.capstone_project_redo.HomePage;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.databinding.ActivityMyProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,10 +33,11 @@ public class MyProfileActivity extends DrawerBaseActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
     StorageReference profileStorageRef;
-    TextView profileUser, profileFullName, profileAge, profileAddress, profileMobile, profileEmail;
+    TextView profileUser, profileFullName, profileAge, profileAddress, profileStallDesc, profileMobile, profileEmail;
     ImageView profilepic;
     String stringGlide;
 
+    ProgressDialog loadingProgress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,11 @@ public class MyProfileActivity extends DrawerBaseActivity {
         activityMyProfileBinding = ActivityMyProfileBinding.inflate(getLayoutInflater());
         setContentView(activityMyProfileBinding.getRoot());
         allocateActivityTitle("Profile");
+
+        loadingProgress = new ProgressDialog(this);
+        loadingProgress.setMessage("Please wait while we fetch your data");
+        loadingProgress.setCancelable(false);
+        loadingProgress.show();
 
         Button UpdateProfile;
         UpdateProfile = findViewById(R.id.btn_EditProfile);
@@ -57,6 +65,7 @@ public class MyProfileActivity extends DrawerBaseActivity {
         profileFullName = findViewById(R.id.tv_profileFullName);
         profileAge = findViewById(R.id.tv_profileAge);
         profileAddress = findViewById(R.id.tv_profileAddress);
+        profileStallDesc = findViewById(R.id.tv_profileAddDesc);
         profileMobile = findViewById(R.id.tv_profileMobile);
         profileEmail = findViewById(R.id.tv_profileEmail);
         profilepic = findViewById(R.id.iv_profilePicture);
@@ -81,6 +90,7 @@ public class MyProfileActivity extends DrawerBaseActivity {
                 String age = (String) snapshot.child("Age").getValue();
                 String municipality = (String) snapshot.child("Municipality").getValue();
                 String province = (String) snapshot.child("Province").getValue();
+                String stall = (String) snapshot.child("StallDescription").getValue();
                 String marketAddress = municipality + ", " + province;
                 String mobile = (String) snapshot.child("MobileNumber").getValue();
                 String email = (String) snapshot.child("EmailAddress").getValue();
@@ -90,10 +100,15 @@ public class MyProfileActivity extends DrawerBaseActivity {
                 profileFullName.setText(fullName);
                 profileAge.setText(age);
                 profileAddress.setText(marketAddress);
+                profileStallDesc.setText(stall);
                 profileMobile.setText(mobile);
                 profileEmail.setText(email);
                 stringGlide = url;
                 Glide.with(MyProfileActivity.this).load(url).centerInside().into(profilepic);
+
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
             }
 
             @Override
@@ -101,6 +116,10 @@ public class MyProfileActivity extends DrawerBaseActivity {
 
             }
         });
-
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MyProfileActivity.this, HomePage.class));
+        finish();
     }
 }

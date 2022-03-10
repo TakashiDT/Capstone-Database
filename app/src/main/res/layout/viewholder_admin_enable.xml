@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="6dp"
+    android:elevation="6dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="15dp">
+
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name: "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tv_aName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:layout_toRightOf="@+id/textView1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Email: "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_below="@+id/tv_aName"/>
+
+        <TextView
+            android:id="@+id/tv_aEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:layout_below="@+id/tv_aName"
+            android:layout_toRightOf="@+id/textView2"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Active Status: "
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:layout_below="@+id/tv_aEmail" />
+
+        <TextView
+            android:id="@+id/tv_aStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:maxLines="2"
+            android:layout_below="@+id/tv_aEmail"
+            android:layout_toRightOf="@+id/textView3"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/btn_showImage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Image Proof"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/tv_aStatus"/>
+
+        <Button
+            android:id="@+id/btn_acctActivate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Activate Account"
+            android:textColor="@color/white"
+            android:backgroundTint="@color/main_color"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/btn_showImage"/>
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>

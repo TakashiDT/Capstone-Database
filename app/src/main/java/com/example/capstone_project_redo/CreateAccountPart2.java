@@ -92,6 +92,7 @@ public class CreateAccountPart2 extends AppCompatActivity {
                                     String emailTxt = extras.getString("email");
                                     String passwordTxt = extras.getString("password");
 
+                                    databaseReference.child("users").child(uid).child("activate").setValue("false");
                                     databaseReference.child("users").child(uid).child("id").setValue(uid);
                                     databaseReference.child("users").child(uid).child("FirstName").setValue(firstnameTxt);
                                     databaseReference.child("users").child(uid).child("LastName").setValue(lastnameTxt);

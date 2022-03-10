@@ -133,8 +133,15 @@ public class CreateAccountPart1 extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            progressDialog.hide();
-                            Toast.makeText(CreateAccountPart1.this, "First Part Completed", Toast.LENGTH_SHORT).show();
+                            uAuth.getCurrentUser().sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(CreateAccountPart1.this, "First part completed", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(CreateAccountPart1.this, "A verification email was sent to your email account", Toast.LENGTH_LONG).show();
+                                        }
+                                    });
 
                             uAuth.signInWithEmailAndPassword(registerEmailTxt, registerPasswordTxt)
                                     .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -152,7 +159,7 @@ public class CreateAccountPart1 extends AppCompatActivity {
                                     });
                         }
                         else {
-                            progressDialog.hide();
+                            progressDialog.dismiss();
                             Toast.makeText(CreateAccountPart1.this, "Invalid Email or Email has already been taken", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -189,6 +196,9 @@ public class CreateAccountPart1 extends AppCompatActivity {
                         @Override
                         public void onSuccess(Uri uri) {
                             imageProofUrl = uri.toString();
+
+                            databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
+                            databaseReference.child("users").child(uid).child("imageProof").setValue(imageProofUrl);
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override

@@ -13,6 +13,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.FrameLayout;
 
+import com.example.capstone_project_redo.admin.ActiveUsers;
+import com.example.capstone_project_redo.admin.PendingUsers;
 import com.example.capstone_project_redo.nav.AboutActivity;
 import com.example.capstone_project_redo.nav.CategoryActivity;
 import com.example.capstone_project_redo.nav.MyProductsActivity;
@@ -47,6 +49,12 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             hideItem();
+        }
+        else if (user.getUid().equals("y0HGN02WYaTK4GaefHjpSQUNzyz2")) {
+            hidefromAdmin();
+        }
+        else {
+            hideAdmin();
         }
     }
 
@@ -85,6 +93,16 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
                 overridePendingTransition(0, 0);
                 break;
 
+            case R.id.nav_pending:
+                startActivity(new Intent(this, PendingUsers.class));
+                overridePendingTransition(0, 0);
+                break;
+
+            case R.id.nav_active:
+                startActivity(new Intent(this, ActiveUsers.class));
+                overridePendingTransition(0, 0);
+                break;
+
             case R.id.nav_logout:
                 FirebaseAuth.getInstance().signOut();
                 startActivity(new Intent(this, LoginActivity.class));
@@ -100,6 +118,28 @@ public class DrawerBaseActivity extends AppCompatActivity implements NavigationV
         Menu nav_Menu = navigationView.getMenu();
         nav_Menu.findItem(R.id.nav_profile).setVisible(false);
         nav_Menu.findItem(R.id.nav_upload).setVisible(false);
+        nav_Menu.findItem(R.id.nav_pending).setVisible(false);
+        nav_Menu.findItem(R.id.nav_active).setVisible(false);
+        invalidateOptionsMenu();
+    }
+
+    private void hidefromAdmin() {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_home).setVisible(false);
+        nav_Menu.findItem(R.id.nav_category).setVisible(false);
+        nav_Menu.findItem(R.id.nav_dtisrp).setVisible(false);
+        nav_Menu.findItem(R.id.nav_about).setVisible(false);
+        nav_Menu.findItem(R.id.nav_profile).setVisible(false);
+        nav_Menu.findItem(R.id.nav_upload).setVisible(false);
+        invalidateOptionsMenu();
+    }
+
+    private void hideAdmin() {
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        nav_Menu.findItem(R.id.nav_pending).setVisible(false);
+        nav_Menu.findItem(R.id.nav_active).setVisible(false);
         invalidateOptionsMenu();
     }
 

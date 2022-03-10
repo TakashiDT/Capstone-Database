@@ -1,15 +1,16 @@
 package com.example.capstone_project_redo.model;
 
-public class MyListModel {
-    String name, category, price, priceExtension, description, imageUrl;
+public class CategoryInsideModel {
+    String name, category, seller, price, priceExtension, description, imageUrl;
 
-    MyListModel() {
+    CategoryInsideModel() {
 
     }
 
-    public MyListModel(String name, String category, String price, String priceExtension, String description, String imageUrl) {
+    public CategoryInsideModel(String name, String category, String seller, String price, String priceExtension, String description, String imageUrl) {
         this.name = name;
         this.category = category;
+        this.seller = seller;
         this.price = price;
         this.priceExtension = priceExtension;
         this.description = description;
@@ -30,6 +31,14 @@ public class MyListModel {
 
     public void setCategory(String category) {
         this.category = category;
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
     }
 
     public String getPrice() {

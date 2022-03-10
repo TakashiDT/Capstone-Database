@@ -29,6 +29,14 @@
             android:title="@string/menu_about"
             android:icon="@drawable/ic_about" />
         <item
+            android:id="@+id/nav_pending"
+            android:title="@string/menu_pending"
+            android:icon="@drawable/ic_pending" />
+        <item
+            android:id="@+id/nav_active"
+            android:title="@string/menu_active"
+            android:icon="@drawable/ic_active" />
+        <item
             android:id="@+id/nav_logout"
             android:title="@string/menu_logout"
             android:icon="@drawable/ic_login" />
