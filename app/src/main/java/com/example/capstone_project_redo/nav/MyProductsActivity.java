@@ -25,10 +25,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MyProductsActivity extends DrawerBaseActivity {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUser = user.getUid();
 
@@ -44,6 +50,10 @@ public class MyProductsActivity extends DrawerBaseActivity {
         setContentView(activityMyProductsBinding.getRoot());
         allocateActivityTitle("My Products");
 
+        loadingProgress = new ProgressDialog(this);
+        loadingProgress.setMessage("Please wait while we fetch your data");
+        loadingProgress.setCancelable(false);
+        loadingProgress.show();
 
         FloatingActionButton fab_addItem = findViewById(R.id.fab_addItem);
         fab_addItem.setOnClickListener(new View.OnClickListener() {
@@ -84,12 +94,25 @@ public class MyProductsActivity extends DrawerBaseActivity {
         myListAdapter = new MyListAdapter(options);
         myList.setAdapter(myListAdapter);
 
-        if (myListAdapter.getItemCount() != 0) {
-            if (loadingProgress.isShowing()) {
-                loadingProgress.dismiss();
+        databaseReference = database.getReference("products");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
             }
 
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
+            }
+        });
+
     }
 
     @Override

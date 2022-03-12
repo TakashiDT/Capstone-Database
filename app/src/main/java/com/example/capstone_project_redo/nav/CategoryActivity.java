@@ -1,8 +1,10 @@
 package com.example.capstone_project_redo.nav;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,7 +19,11 @@ import com.example.capstone_project_redo.databinding.ActivityCategoryBinding;
 import com.example.capstone_project_redo.adapter.CategoryAdapter;
 import com.example.capstone_project_redo.model.CategoryModel;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -25,6 +31,9 @@ import static android.content.ContentValues.TAG;
 
 public class CategoryActivity extends DrawerBaseActivity implements CategoryAdapter.OnCategoryListener {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
+    ProgressDialog loadingProgress;
     RecyclerView categoryList;
     CategoryAdapter categoryAdapter;
 
@@ -38,6 +47,11 @@ public class CategoryActivity extends DrawerBaseActivity implements CategoryAdap
         activityCategoryBinding = ActivityCategoryBinding.inflate(getLayoutInflater());
         setContentView(activityCategoryBinding.getRoot());
         allocateActivityTitle("Categories");
+
+        loadingProgress = new ProgressDialog(this);
+        loadingProgress.setMessage("Loading, Please Wait...");
+        loadingProgress.setCancelable(false);
+        loadingProgress.show();
 
         loadData();
     }
@@ -67,6 +81,24 @@ public class CategoryActivity extends DrawerBaseActivity implements CategoryAdap
 
         categoryAdapter = new CategoryAdapter(this, options);
         categoryList.setAdapter(categoryAdapter);
+
+        databaseReference = database.getReference("products");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
+            }
+        });
     }
 
     @Override

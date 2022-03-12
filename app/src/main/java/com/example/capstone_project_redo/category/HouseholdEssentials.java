@@ -1,8 +1,10 @@
 package com.example.capstone_project_redo.category;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,11 +15,19 @@ import com.example.capstone_project_redo.databinding.CategoryInsideBinding;
 import com.example.capstone_project_redo.model.CategoryInsideModel;
 import com.example.capstone_project_redo.nav.CategoryActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 public class HouseholdEssentials extends DrawerBaseActivity implements CategoryInsideAdapter.OnProductListener{
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
+    ProgressDialog loadingProgress;
 
     RecyclerView insideList;
     CategoryInsideAdapter categoryInsideAdapter;
@@ -31,6 +41,11 @@ public class HouseholdEssentials extends DrawerBaseActivity implements CategoryI
         insideBinding = CategoryInsideBinding.inflate(getLayoutInflater());
         setContentView(insideBinding.getRoot());
         allocateActivityTitle("Household Essentials Section");
+
+        loadingProgress = new ProgressDialog(this);
+        loadingProgress.setMessage("Loading, Please Wait...");
+        loadingProgress.setCancelable(false);
+        loadingProgress.show();
 
         loadData();
     }
@@ -60,6 +75,24 @@ public class HouseholdEssentials extends DrawerBaseActivity implements CategoryI
 
         categoryInsideAdapter = new CategoryInsideAdapter(this, options);
         insideList.setAdapter(categoryInsideAdapter);
+
+        databaseReference = database.getReference("products");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
+            }
+        });
     }
 
     @Override

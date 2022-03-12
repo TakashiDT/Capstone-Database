@@ -92,7 +92,7 @@
             android:id="@+id/btn_acctActivate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Activate Account"
+            android:text="ACTIVATE ACCOUNT"
             android:textColor="@color/white"
             android:backgroundTint="@color/main_color"
             android:layout_marginBottom="10dp"

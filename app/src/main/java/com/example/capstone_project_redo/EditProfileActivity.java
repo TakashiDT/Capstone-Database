@@ -107,15 +107,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 String mobile = (String) snapshot.child("MobileNumber").getValue();
                 String url = (String) snapshot.child("ImageProfile").getValue();
 
-
                 editfirstname.setText(firstName);
                 editlastname.setText(lastName);
                 editage.setText(age);
                 editmunicipality.setText(municipality);
                 editprovince.setText(province);
                 editmobile.setText(mobile);
-                stringGlide = url;
-                Glide.with(EditProfileActivity.this).load(url).into(addProfileImage);
+
+                Glide.with(getApplicationContext()).load(url).into(addProfileImage);
 
                 Updateprofile.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -137,20 +136,18 @@ public class EditProfileActivity extends AppCompatActivity {
                                 Toast.makeText(EditProfileActivity.this, "Please Fill all fields", Toast.LENGTH_SHORT).show();
                             }
                             else {
-
                                 databaseReference.child("FirstName").setValue(firstname_edit);
                                 databaseReference.child("LastName").setValue(lastname_edit);
                                 databaseReference.child("Age").setValue(age_edit);
                                 databaseReference.child("MobileNumber").setValue(mobile_edit);
                                 databaseReference.child("Municipality").setValue(municipality_edit);
                                 databaseReference.child("Province").setValue(province_edit);
+
+                                uploadImage();
+
                                 Toast.makeText(EditProfileActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                                if (stringGlide == null) {
-                                    uploadImage();
-                                }
-
-
-                                ProfileTransition();
+                                //ProfileTransition();
+                                finish();
                             }
                         }
                     }
@@ -160,6 +157,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
             private void ProfileTransition() {
                 Intent intent = new Intent(EditProfileActivity.this, MyProfileActivity.class);
                 startActivity(intent);
@@ -174,23 +172,25 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user != null) {
             String uid = user.getUid();
 
-            uItemStorageRef = FirebaseStorage.getInstance().getReference("users/" + uid +"/"+"Profile/"+profileKey);
-            uItemStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    uItemStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            imageProofUrl = uri.toString();
-                            databaseReference.child("ImageProfile").setValue(imageProofUrl);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        }
-                    });
-                }
-            });
+            if (imageUri != null) {
+                uItemStorageRef = FirebaseStorage.getInstance().getReference("users/" + uid +"/"+"Profile/"+profileKey);
+                uItemStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        uItemStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                imageProofUrl = uri.toString();
+                                databaseReference.child("ImageProfile").setValue(imageProofUrl);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+                    }
+                });
+            }
         }
     }
 }
