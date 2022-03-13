@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Capstone_Project_Redo</string>
+    <string name="app_name">LM Price Tracker</string>
     <string name="title_activity_home_page">HomePage</string>
     <string name="addItem">Adds Item</string>
 
