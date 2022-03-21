@@ -16,9 +16,8 @@
             android:id="@+id/iv_myProductImage"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:srcCompat="@drawable/ic_launcher_foreground"
-            android:layout_centerVertical="true" />
-            <!-- set border if possible-->
+            app:srcCompat="@drawable/ic_launcher_foreground" />
+
 
         <TextView
             android:id="@+id/tv_myProductName"
@@ -63,6 +62,52 @@
             android:layout_toRightOf="@+id/tv_myProductPrice"
             android:layout_below="@+id/tv_myProductCategory"
             android:layout_marginLeft="10dp" />
+
+        <TextView
+            android:id="@+id/tv_myProductDesc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/tv_myProductPrice" />
+
+        <Button
+            android:id="@+id/btn_showMore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show More"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/white"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@+id/tv_myProductDesc"/>
+
+        <LinearLayout
+            android:id="@+id/productButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@+id/btn_showMore">
+
+            <Button
+                android:id="@+id/btn_productEdit"
+                android:layout_width="175dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/main_color"
+                android:text="Edit" />
+
+            <Button
+                android:id="@+id/btn_productDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/maroon"
+                android:text="Delete" />
+        </LinearLayout>
+
 
     </RelativeLayout>
 

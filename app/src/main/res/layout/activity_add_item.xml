@@ -105,7 +105,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/et_productPrice" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/editProductText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
@@ -126,7 +126,7 @@
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rectangle"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView10" />
+                app:layout_constraintTop_toBottomOf="@+id/editProductText" />
 
             <TextView
                 android:id="@+id/textView19"

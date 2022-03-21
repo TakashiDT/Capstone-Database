@@ -2,19 +2,24 @@ package com.example.capstone_project_redo;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.capstone_project_redo.databinding.ActivityHomePageBinding;
+import com.example.capstone_project_redo.nav.AboutActivity;
+import com.example.capstone_project_redo.nav.CategoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class HomePage extends DrawerBaseActivity {
 
-    ActivityHomePageBinding activityHomePageBinding;
+    Button toCategory, toAbout;
 
-    TextView currentUser;
+    ActivityHomePageBinding activityHomePageBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,12 +28,25 @@ public class HomePage extends DrawerBaseActivity {
         setContentView(activityHomePageBinding.getRoot());
         allocateActivityTitle("Home");
 
-        currentUser = (TextView)findViewById(R.id.fb_currentUser);
+        toCategory = findViewById(R.id.btn_hCategory);
+        toAbout = findViewById(R.id.btn_hAbout);
 
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user != null) {
-            currentUser.setText(user.getEmail());
-        }
+        toCategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomePage.this, CategoryActivity.class));
+            }
+        });
+        toAbout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomePage.this, AboutActivity.class));
+            }
+        });
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(HomePage.this, LoginActivity.class));
+        finish();
     }
 }

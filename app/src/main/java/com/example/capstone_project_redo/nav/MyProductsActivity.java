@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -13,6 +15,7 @@ import android.widget.SearchView;
 
 import com.example.capstone_project_redo.AddItemActivity;
 import com.example.capstone_project_redo.DrawerBaseActivity;
+import com.example.capstone_project_redo.HomePage;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.databinding.ActivityMyProductsBinding;
 import com.example.capstone_project_redo.adapter.MyListAdapter;
@@ -22,10 +25,16 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MyProductsActivity extends DrawerBaseActivity {
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String currentUser = user.getUid();
 
@@ -33,6 +42,7 @@ public class MyProductsActivity extends DrawerBaseActivity {
     MyListAdapter myListAdapter;
     ActivityMyProductsBinding activityMyProductsBinding;
 
+    ProgressDialog loadingProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +50,10 @@ public class MyProductsActivity extends DrawerBaseActivity {
         setContentView(activityMyProductsBinding.getRoot());
         allocateActivityTitle("My Products");
 
+        loadingProgress = new ProgressDialog(this);
+        loadingProgress.setMessage("Please wait while we fetch your data");
+        loadingProgress.setCancelable(false);
+        loadingProgress.show();
 
         FloatingActionButton fab_addItem = findViewById(R.id.fab_addItem);
         fab_addItem.setOnClickListener(new View.OnClickListener() {
@@ -67,6 +81,7 @@ public class MyProductsActivity extends DrawerBaseActivity {
     }
 
     private void loadData() {
+
         myList = findViewById(R.id.lv_myProducts);
         myList.setHasFixedSize(true);
         myList.setLayoutManager(new LinearLayoutManager(this));
@@ -76,9 +91,28 @@ public class MyProductsActivity extends DrawerBaseActivity {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser), MyListModel.class)
                         .build();
 
-
         myListAdapter = new MyListAdapter(options);
         myList.setAdapter(myListAdapter);
+
+        databaseReference = database.getReference("products");
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+                if (loadingProgress.isShowing()){
+                    loadingProgress.dismiss();
+                }
+            }
+        });
+
     }
 
     @Override
@@ -128,17 +162,17 @@ public class MyProductsActivity extends DrawerBaseActivity {
 
             case R.id.filterFood:
                 String food = "Food";
-                filterFood(food);
+                filterCategory(food);
                 return true;
 
             case R.id.filterCrafts:
                 String crafts = "Crafted Goods";
-                filterCrafts(crafts);
+                filterCategory(crafts);
                 return true;
 
             case R.id.filterHousehold:
                 String house = "Household Essentials";
-                filterHousehold(house);
+                filterCategory(house);
                 return true;
 
         }
@@ -156,7 +190,7 @@ public class MyProductsActivity extends DrawerBaseActivity {
         myList.setAdapter(myListAdapter);
     }
 
-    private void filterFood(String str) {
+    private void filterCategory(String str) {
         FirebaseRecyclerOptions<MyListModel> options =
                 new FirebaseRecyclerOptions.Builder<MyListModel>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser)
@@ -167,29 +201,9 @@ public class MyProductsActivity extends DrawerBaseActivity {
         myList.setAdapter(myListAdapter);
 
     }
-
-    private void filterCrafts(String str) {
-        FirebaseRecyclerOptions<MyListModel> options =
-                new FirebaseRecyclerOptions.Builder<MyListModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser)
-                                .orderByChild("category").equalTo(str), MyListModel.class)
-                        .build();
-        myListAdapter = new MyListAdapter(options);
-        myListAdapter.startListening();
-        myList.setAdapter(myListAdapter);
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(MyProductsActivity.this, HomePage.class));
+        finish();
     }
-
-    private void filterHousehold(String str) {
-        FirebaseRecyclerOptions<MyListModel> options =
-                new FirebaseRecyclerOptions.Builder<MyListModel>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("products").child(currentUser)
-                                .orderByChild("category").equalTo(str), MyListModel.class)
-                        .build();
-        myListAdapter = new MyListAdapter(options);
-        myListAdapter.startListening();
-        myList.setAdapter(myListAdapter);
-
-    }
-
 }

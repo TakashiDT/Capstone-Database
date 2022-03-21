@@ -14,47 +14,48 @@
 
 
         <ImageView
-            android:id="@+id/iv_craftedGoodsImage"
+            android:id="@+id/img1"
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:layout_centerHorizontal="true"
             android:scaleType="centerCrop" />
 
         <TextView
-            android:id="@+id/tv_craftedGoodsName"
+            android:id="@+id/nametext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/iv_craftedGoodsImage"
+            android:layout_below="@+id/img1"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="Product Name"
             android:maxLines="1"
-            android:autoSizeMaxTextSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_craftedGoodsSeller"
+            android:id="@+id/sellertext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_craftedGoodsName"
+            android:layout_below="@+id/nametext"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:text="Product Seller"
+            android:maxLines="2"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
-            android:id="@+id/tv_craftedGoodsPrice"
+            android:id="@+id/pricetext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_craftedGoodsSeller"
+            android:layout_below="@+id/sellertext"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="8dp"
             android:text="Product Price"
+            android:textStyle="bold"
+            android:maxLines="1"
             android:textColor="@color/red"
-            android:textSize="20sp" />
-
+            android:textSize="18sp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

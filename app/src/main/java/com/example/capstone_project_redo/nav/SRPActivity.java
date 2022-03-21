@@ -2,9 +2,12 @@ package com.example.capstone_project_redo.nav;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.capstone_project_redo.DrawerBaseActivity;
+import com.example.capstone_project_redo.HomePage;
+import com.example.capstone_project_redo.LoginActivity;
 import com.example.capstone_project_redo.databinding.ActivityAboutBinding;
 import com.example.capstone_project_redo.databinding.ActivitySrpBinding;
 
@@ -18,5 +21,10 @@ public class SRPActivity extends DrawerBaseActivity {
         activity_srp = ActivitySrpBinding.inflate(getLayoutInflater());
         setContentView(activity_srp.getRoot());
         allocateActivityTitle("DTI's List of SRP's");
+    }
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(SRPActivity.this, HomePage.class));
+        finish();
     }
 }

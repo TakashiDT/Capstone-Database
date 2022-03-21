@@ -176,7 +176,7 @@ public class AddItemActivity extends AppCompatActivity {
                     public void onSuccess(Uri uri) {
                         productImageUrl = uri.toString();
 
-                        // Checks the database for children as integers, starts from 0 onwards.
+                        /* Checks the database for children as integers, starts from 0 onwards.
                         DatabaseReference productsRef = database.getReference().child("products").child("1allID").child(currentUser);
                         productsRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -194,6 +194,8 @@ public class AddItemActivity extends AppCompatActivity {
                                 Toast.makeText(AddItemActivity.this,"Failed to upload product",Toast.LENGTH_SHORT).show();
                             }
                         });
+
+                         */
                         // UPLOADS DATA TO "PRODUCTS"
                         databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
 
@@ -226,76 +228,43 @@ public class AddItemActivity extends AppCompatActivity {
                                 String usernameTxt = (String) snapshot.child("Username").getValue();
 
                                 if (subCatItem == null && subCat2Item == null) {
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("id").setValue(currentUser);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("productId").setValue(productKey);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("name").setValue(productNameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("seller").setValue(usernameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("price").setValue(productPriceTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("description").setValue(productDescTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("imageUrl").setValue(productImageUrl);
-                                    databaseReference.child("categories").child(mainCatItem).child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(productKey).child("category").setValue(mainCatItem);
 
-                                    // TO MIXED
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("id").setValue(currentUser);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("productId").setValue(productKey);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("name").setValue(productNameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("seller").setValue(usernameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("price").setValue(productPriceTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("description").setValue(productDescTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("imageUrl").setValue(productImageUrl);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("category").setValue(mainCatItem);
                                 }
                                 else if (subCatItem != null && subCat2Item == null) {
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("id").setValue(currentUser);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("productId").setValue(productKey);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("name").setValue(productNameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("seller").setValue(usernameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("price").setValue(productPriceTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("description").setValue(productDescTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("imageUrl").setValue(productImageUrl);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("category").setValue(mainCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("categorySub").setValue(subCatItem);
+                                    databaseReference.child("categories").child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(productKey).child("categorySub").setValue(subCatItem);
 
-                                    // TO MIXED
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("id").setValue(currentUser);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("productId").setValue(productKey);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("name").setValue(productNameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("seller").setValue(usernameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("price").setValue(productPriceTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("description").setValue(productDescTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("imageUrl").setValue(productImageUrl);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("category").setValue(mainCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("categorySub").setValue(subCatItem);
                                 }
                                 else {
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("id").setValue(currentUser);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("productId").setValue(productKey);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("name").setValue(productNameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("seller").setValue(usernameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("price").setValue(productPriceTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("priceExtension").setValue(priceExtensionTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("description").setValue(productDescTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("imageUrl").setValue(productImageUrl);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("category").setValue(mainCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("categorySub").setValue(subCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child(subCatItem).child(productKey).child("categorySub2").setValue(subCat2Item);
+                                    databaseReference.child("categories").child(productKey).child("id").setValue(currentUser);
+                                    databaseReference.child("categories").child(productKey).child("productId").setValue(productKey);
+                                    databaseReference.child("categories").child(productKey).child("name").setValue(productNameTxt);
+                                    databaseReference.child("categories").child(productKey).child("seller").setValue(usernameTxt);
+                                    databaseReference.child("categories").child(productKey).child("price").setValue(productPriceTxt);
+                                    databaseReference.child("categories").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
+                                    databaseReference.child("categories").child(productKey).child("description").setValue(productDescTxt);
+                                    databaseReference.child("categories").child(productKey).child("imageUrl").setValue(productImageUrl);
+                                    databaseReference.child("categories").child(productKey).child("category").setValue(mainCatItem);
+                                    databaseReference.child("categories").child(productKey).child("categorySub").setValue(subCatItem);
+                                    databaseReference.child("categories").child(productKey).child("categorySub2").setValue(subCat2Item);
 
-                                    // TO MIXED
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("id").setValue(currentUser);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("productId").setValue(productKey);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("name").setValue(productNameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("seller").setValue(usernameTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("price").setValue(productPriceTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("priceExtension").setValue(priceExtensionTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("description").setValue(productDescTxt);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("imageUrl").setValue(productImageUrl);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("category").setValue(mainCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("categorySub").setValue(subCatItem);
-                                    databaseReference.child("categories").child(mainCatItem).child("mixed").child(productKey).child("categorySub2").setValue(subCat2Item);
                                 }
                             }
 

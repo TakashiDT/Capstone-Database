@@ -6,7 +6,7 @@
         android:id="@+id/search"
         android:icon="@drawable/ic_search"
         android:title="Search"
-        app:showAsAction="always"
+        app:showAsAction="ifRoom"
         app:actionViewClass="android.widget.SearchView"/>
 
     <item
@@ -19,7 +19,7 @@
         app:showAsAction="collapseActionView"/>
     <item
         android:id="@+id/filterCrafts"
-        android:title="Crafts Goods Only"
+        android:title="Crafted Goods Only"
         app:showAsAction="collapseActionView"/>
     <item
         android:id="@+id/filterHousehold"

@@ -1,17 +1,18 @@
 package com.example.capstone_project_redo.model;
 
 public class MyListModel {
-    String name, category, price, priceExtension, imageUrl;
+    String name, category, price, priceExtension, description, imageUrl;
 
     MyListModel() {
 
     }
 
-    public MyListModel(String name, String category, String price, String priceExtension, String imageUrl) {
+    public MyListModel(String name, String category, String price, String priceExtension, String description, String imageUrl) {
         this.name = name;
         this.category = category;
         this.price = price;
         this.priceExtension = priceExtension;
+        this.description = description;
         this.imageUrl = imageUrl;
     }
 
@@ -45,6 +46,14 @@ public class MyListModel {
 
     public void setPriceExtension(String priceExtension) {
         this.priceExtension = priceExtension;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getImageUrl() {

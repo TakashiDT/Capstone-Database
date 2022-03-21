@@ -34,7 +34,7 @@ public class CategoryAdapter extends FirebaseRecyclerAdapter<CategoryModel, Cate
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull categoryViewHolder holder, int position, @NonNull CategoryModel model) {
+    protected void onBindViewHolder(@NonNull categoryViewHolder holder, final int position, @NonNull CategoryModel model) {
         holder.name.setText(model.getName());
 
         Glide.with(holder.imageUrl.getContext())
@@ -73,6 +73,6 @@ public class CategoryAdapter extends FirebaseRecyclerAdapter<CategoryModel, Cate
     }
 
     public interface OnCategoryListener {
-        void onCategoryClick(int position);
+        void onCategoryClick(final int position);
     }
 }

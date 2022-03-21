@@ -1,12 +1,6 @@
 <resources>
-    <string name="app_name">Capstone_Project_Redo</string>
+    <string name="app_name">LM Price Tracker</string>
     <string name="title_activity_home_page">HomePage</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
     <string name="addItem">Adds Item</string>
 
     <string name="menu_drawer_open">Drawer Open</string>
@@ -20,6 +14,9 @@
     <string name="menu_dtisrp">DTI SRP List</string>
     <string name="menu_about">About</string>
     <string name="menu_logout">Log Out</string>
+    <!-- ADMIN NAV -->
+    <string name="menu_pending">Pending Users</string>
+    <string name="menu_active">Active Users</string>
 
     <!-- LOGIN PAGE -->
     <string name="customer_login">Customer Login</string>
@@ -31,7 +28,6 @@
     <!-- ACCOUNT CREATION -->
     <string name="email">Email</string>
     <string name="password">Password</string>
-    <string name="create_account">Create Account</string>
     <string name="first_name">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="age">Age</string>
@@ -40,52 +36,20 @@
     <string name="mobile_number">Mobile Number</string>
     <string name="personal_information">Personal Information</string>
     <string name="address">Market Address</string>
-    <string name="log_in_details">Log in Details</string>
     <string name="contact_information">Contact Information</string>
     <string name="register_btn">register</string>
-    <string name="email_address">Email Address</string>
     <string name="log_in_here">Log In here</string>
     <string name="has_account">Already have an account?</string>
 
     <!-- CATEGORIES -->
-    <string name="categoriesTitle">categories</string>
-    <string name="username">username</string>
     <string name="Username">Username</string>
 
     <!-- MAIN CATEGORY-->
-    <string name="select">Select Item</string>
-    <string-array name="mainCategory">
-        <item>Food</item>
-        <item>Household Items</item>
-        <item>Crafted Goods</item>
-    </string-array>
     <!-- SUB CATEGORY-->
     <!-- FOOD-->
-    <string-array name="subCatFood">
-        <item>Fruits</item>
-        <item>Vegetables</item>
-        <item>Meat</item>
-    </string-array>
     <!-- HOUSEHOLD ITEMS-->
-    <string-array name="subCatHouse">
-        <item>Fruits</item>
-        <item>Vegetables</item>
-        <item>Meat</item>
-    </string-array>
     <!-- CRAFTED GOODS-->
-    <string-array name="subCatCraft">
-        <item>Fruits</item>
-        <item>Vegetables</item>
-        <item>Meat</item>
-    </string-array>
 
-    <string name="title_activity_edit_profile">EditProfileActivity</string>
     <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>

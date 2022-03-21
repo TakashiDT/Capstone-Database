@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -41,7 +42,7 @@ public class EditProfileActivity extends AppCompatActivity {
     String imageProofUrl;
     String stringGlide;
 
-    EditText editfirstname, editlastname, editage, editmunicipality, editprovince, editusername, editmobile;
+    EditText editfirstname, editlastname, editage, editmunicipality, editprovince, editmobile;
     Button Updateprofile, selectImageBtn, clearImageBtn;
     ImageView addProfileImage;
 
@@ -57,7 +58,6 @@ public class EditProfileActivity extends AppCompatActivity {
         editmunicipality = findViewById(R.id.e_municipality);
         editmobile = findViewById(R.id.e_mobilenumber);
         editprovince = findViewById(R.id.e_province);
-        editusername = findViewById(R.id.e_username);
         addProfileImage = findViewById(R.id.iv_addProfileImage);
 
         //Button ID
@@ -99,7 +99,6 @@ public class EditProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String username = (String) snapshot.child("Username").getValue();
                 String firstName = (String) snapshot.child("FirstName").getValue();
                 String lastName = (String) snapshot.child("LastName").getValue();
                 String age = (String) snapshot.child("Age").getValue();
@@ -108,16 +107,14 @@ public class EditProfileActivity extends AppCompatActivity {
                 String mobile = (String) snapshot.child("MobileNumber").getValue();
                 String url = (String) snapshot.child("ImageProfile").getValue();
 
-
                 editfirstname.setText(firstName);
                 editlastname.setText(lastName);
                 editage.setText(age);
                 editmunicipality.setText(municipality);
                 editprovince.setText(province);
                 editmobile.setText(mobile);
-                editusername.setText(username);
-                stringGlide = url;
-                Glide.with(EditProfileActivity.this).load(url).into(addProfileImage);
+
+                Glide.with(getApplicationContext()).load(url).into(addProfileImage);
 
                 Updateprofile.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -128,7 +125,6 @@ public class EditProfileActivity extends AppCompatActivity {
                         final String age_edit = editage.getText().toString();
                         final String province_edit = editprovince.getText().toString();
                         final String municipality_edit = editmunicipality.getText().toString();
-                        final String username_edit = editusername.getText().toString();
                         final String mobile_edit = editmobile.getText().toString();
 
 
@@ -136,7 +132,7 @@ public class EditProfileActivity extends AppCompatActivity {
                             Toast.makeText(EditProfileActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
                         }
                         else {
-                            if (firstname_edit.isEmpty() || lastname_edit.isEmpty() || age_edit.isEmpty() || province_edit.isEmpty() || municipality_edit.isEmpty() || username_edit.isEmpty() || mobile_edit.isEmpty()) {
+                            if (firstname_edit.isEmpty() || lastname_edit.isEmpty() || age_edit.isEmpty() || province_edit.isEmpty() || municipality_edit.isEmpty() || mobile_edit.isEmpty()) {
                                 Toast.makeText(EditProfileActivity.this, "Please Fill all fields", Toast.LENGTH_SHORT).show();
                             }
                             else {
@@ -146,14 +142,12 @@ public class EditProfileActivity extends AppCompatActivity {
                                 databaseReference.child("MobileNumber").setValue(mobile_edit);
                                 databaseReference.child("Municipality").setValue(municipality_edit);
                                 databaseReference.child("Province").setValue(province_edit);
-                                databaseReference.child("Username").setValue(username_edit);
+
+                                uploadImage();
+
                                 Toast.makeText(EditProfileActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                                if (stringGlide == null) {
-                                    uploadImage();
-                                }
-
-
-                                ProfileTransition();
+                                //ProfileTransition();
+                                finish();
                             }
                         }
                     }
@@ -163,6 +157,7 @@ public class EditProfileActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
+
             private void ProfileTransition() {
                 Intent intent = new Intent(EditProfileActivity.this, MyProfileActivity.class);
                 startActivity(intent);
@@ -177,23 +172,25 @@ public class EditProfileActivity extends AppCompatActivity {
         if (user != null) {
             String uid = user.getUid();
 
-            uItemStorageRef = FirebaseStorage.getInstance().getReference("users/" + uid +"/"+"Profile/"+profileKey);
-            uItemStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    uItemStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            imageProofUrl = uri.toString();
-                            databaseReference.child("ImageProfile").setValue(imageProofUrl);
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                        }
-                    });
-                }
-            });
+            if (imageUri != null) {
+                uItemStorageRef = FirebaseStorage.getInstance().getReference("users/" + uid +"/"+"Profile/"+profileKey);
+                uItemStorageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        uItemStorageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                imageProofUrl = uri.toString();
+                                databaseReference.child("ImageProfile").setValue(imageProofUrl);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
+                    }
+                });
+            }
         }
     }
 }
