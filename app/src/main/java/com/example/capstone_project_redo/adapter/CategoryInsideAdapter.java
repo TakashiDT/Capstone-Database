@@ -48,13 +48,18 @@ public class CategoryInsideAdapter extends FirebaseRecyclerAdapter<CategoryInsid
 
         Glide.with(holder.imageUrl.getContext())
                 .load(model.getImageUrl())
+                .centerCrop()
                 .into(holder.imageUrl);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String productID = model.getProductId();
+                String productCategory = model.getCategory();
 
                 Intent intent =  new Intent(holder.itemView.getContext(), ProductData.class);
+                intent.putExtra("id", productID);
+                intent.putExtra("category", productCategory);
                 view.getContext().startActivity(intent);
 
             }

@@ -12,7 +12,7 @@ import com.example.capstone_project_redo.databinding.ActivityHomePageBinding;
 
 public class HomePage extends DrawerBaseActivity {
 
-    Button toCategory, toAbout;
+    Button toCategory, toAbout, toDti;
 
     ActivityHomePageBinding activityHomePageBinding;
 
@@ -24,12 +24,19 @@ public class HomePage extends DrawerBaseActivity {
         allocateActivityTitle("Home");
 
         toCategory = findViewById(R.id.btn_hCategory);
+        toDti = findViewById(R.id.btn_hDti);
         toAbout = findViewById(R.id.btn_hAbout);
 
         toCategory.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(HomePage.this, CategoryActivity.class));
+            }
+        });
+        toDti.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(HomePage.this, SRPActivity.class));
             }
         });
         toAbout.setOnClickListener(new View.OnClickListener() {

@@ -2,6 +2,7 @@ package com.example.capstone_project_redo.adapter;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,6 +75,7 @@ public class MyListAdapter extends FirebaseRecyclerAdapter<MyListModel, MyListAd
             public void onClick(View view) {
                 final DialogPlus dialogPlus = DialogPlus.newDialog(holder.imageUrl.getContext())
                         .setContentHolder(new ViewHolder(R.layout.activity_edit_product))
+                        .setGravity(Gravity.CENTER)
                         .create();
 
                 View data = dialogPlus.getHolderView();
@@ -106,7 +108,7 @@ public class MyListAdapter extends FirebaseRecyclerAdapter<MyListModel, MyListAd
                                     @Override
                                     public void onSuccess(Void aVoid) {
 
-                                        FirebaseDatabase.getInstance().getReference().child("categories").child(getRef(position).getKey()).updateChildren(map)
+                                        FirebaseDatabase.getInstance().getReference().child("categories").child(model.getCategory()).child(getRef(position).getKey()).updateChildren(map)
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
