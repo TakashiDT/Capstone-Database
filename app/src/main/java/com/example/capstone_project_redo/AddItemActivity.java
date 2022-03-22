@@ -5,7 +5,6 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.AppCompatSpinner;
 
 import android.app.ProgressDialog;
 import android.net.Uri;
@@ -520,4 +519,13 @@ public class AddItemActivity extends AppCompatActivity {
                                     }
                                 });
                             }
+
+    public static class EditProductActivity extends AppCompatActivity {
+
+        @Override
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_edit_product);
+        }
+    }
 }

@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class HouseholdEssentials extends DrawerBaseActivity implements CategoryInsideAdapter.OnProductListener{
+public class Basic extends DrawerBaseActivity implements CategoryInsideAdapter.OnProductListener{
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
@@ -40,7 +40,7 @@ public class HouseholdEssentials extends DrawerBaseActivity implements CategoryI
         super.onCreate(savedInstanceState);
         insideBinding = CategoryInsideBinding.inflate(getLayoutInflater());
         setContentView(insideBinding.getRoot());
-        allocateActivityTitle("Household Essentials Section");
+        allocateActivityTitle("Basic Necessities Section");
 
         loadingProgress = new ProgressDialog(this);
         loadingProgress.setMessage("Loading, Please Wait...");
@@ -70,7 +70,7 @@ public class HouseholdEssentials extends DrawerBaseActivity implements CategoryI
 
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").orderByChild("category").equalTo("Household Essentials"), CategoryInsideModel.class)
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Basic Necessities"), CategoryInsideModel.class)
                 .build();
 
         categoryInsideAdapter = new CategoryInsideAdapter(this, options);
@@ -102,7 +102,7 @@ public class HouseholdEssentials extends DrawerBaseActivity implements CategoryI
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(HouseholdEssentials.this, CategoryActivity.class));
+        startActivity(new Intent(Basic.this, CategoryActivity.class));
         finish();
     }
 

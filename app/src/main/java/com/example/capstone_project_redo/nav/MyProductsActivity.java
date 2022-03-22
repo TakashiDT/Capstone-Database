@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +14,6 @@ import android.widget.SearchView;
 
 import com.example.capstone_project_redo.AddItemActivity;
 import com.example.capstone_project_redo.DrawerBaseActivity;
-import com.example.capstone_project_redo.HomePage;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.databinding.ActivityMyProductsBinding;
 import com.example.capstone_project_redo.adapter.MyListAdapter;

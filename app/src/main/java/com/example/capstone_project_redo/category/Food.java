@@ -73,7 +73,7 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
 
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").orderByChild("category").equalTo("Food"), CategoryInsideModel.class)
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Food"), CategoryInsideModel.class)
                 .build();
 
         categoryInsideAdapter = new CategoryInsideAdapter(this, options);
@@ -162,7 +162,7 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
 
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories")
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Food")
                         .orderByChild("name").startAt(str).endAt(str+"~"), CategoryInsideModel.class)
                 .build();
         categoryInsideAdapter = new CategoryInsideAdapter(this, options);
@@ -203,15 +203,15 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
                 return true;
                 case R.id.itemChicken:
                     String chicken = "Chicken";
-                    filterSubCat(meat, chicken);
+                    filterSubCat(chicken);
                     return true;
                 case R.id.itemPork:
                     String pork = "Pork";
-                    filterSubCat(meat, pork);
+                    filterSubCat(pork);
                     return true;
                 case R.id.itemBeef:
                     String beef = "Beef";
-                    filterSubCat(meat, beef);
+                    filterSubCat(beef);
                     return true;
 
             case R.id.filterProcessed:
@@ -222,11 +222,11 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
                 return true;
                 case R.id.itemFrozen:
                     String frozen = "Frozen";
-                    filterSubCat(processed, frozen);
+                    filterSubCat(frozen);
                     return true;
                 case R.id.itemCanned:
                     String canned = "Canned";
-                    filterSubCat(processed, canned);
+                    filterSubCat(canned);
                     return true;
 
             case R.id.filterSeafood:
@@ -237,11 +237,11 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
                 return true;
                 case R.id.itemFish:
                     String fish = "Fish";
-                    filterSubCat(seafood, fish);
+                    filterSubCat(fish);
                     return true;
                 case R.id.itemShellfish:
                     String shellfish = "Shellfish";
-                    filterSubCat(seafood, shellfish);
+                    filterSubCat(shellfish);
                     return true;
             case R.id.filterFruits:
                 String fruit = "Fruits";
@@ -260,7 +260,7 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
     private void filterShowAll() {
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").orderByChild("category").equalTo("Food"), CategoryInsideModel.class)
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Food"), CategoryInsideModel.class)
                 .build();
 
         categoryInsideAdapter = new CategoryInsideAdapter(this, options);
@@ -278,7 +278,7 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
 
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories")
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Food")
                         .orderByChild("categorySub").equalTo(str), CategoryInsideModel.class)
                 .build();
 
@@ -291,7 +291,7 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
     private void filterHealth(String str) {
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories")
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Food")
                         .orderByChild("categorySub").equalTo(str), CategoryInsideModel.class)
                 .build();
 
@@ -301,10 +301,10 @@ public class Food extends DrawerBaseActivity implements CategoryInsideAdapter.On
 
     }
 
-    private void filterSubCat(String cat, String str) {
+    private void filterSubCat(String str) {
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories")
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Food")
                         .orderByChild("categorySub2").equalTo(str), CategoryInsideModel.class)
                 .build();
 

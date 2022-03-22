@@ -10,11 +10,11 @@ import android.os.Bundle;
 import android.util.Log;
 
 import com.example.capstone_project_redo.DrawerBaseActivity;
-import com.example.capstone_project_redo.HomePage;
 import com.example.capstone_project_redo.R;
+import com.example.capstone_project_redo.category.Misc;
 import com.example.capstone_project_redo.category.CraftedGoods;
 import com.example.capstone_project_redo.category.Food;
-import com.example.capstone_project_redo.category.HouseholdEssentials;
+import com.example.capstone_project_redo.category.Basic;
 import com.example.capstone_project_redo.databinding.ActivityCategoryBinding;
 import com.example.capstone_project_redo.adapter.CategoryAdapter;
 import com.example.capstone_project_redo.model.CategoryModel;
@@ -106,18 +106,23 @@ public class CategoryActivity extends DrawerBaseActivity implements CategoryAdap
         Log.d(TAG, "onCategoryClick: clicked");
         switch (position) {
             case 0:
-                Intent craftedGoodsIntent = new Intent(this, CraftedGoods.class);
-                startActivity(craftedGoodsIntent);
+                Intent basicIntent = new Intent(this, Basic.class);
+                startActivity(basicIntent);
                 finish();
                 break;
             case 1:
+                Intent craftIntent = new Intent(this, CraftedGoods.class);
+                startActivity(craftIntent);
+                finish();
+                break;
+            case 2:
                 Intent foodIntent = new Intent(this, Food.class);
                 startActivity(foodIntent);
                 finish();
                 break;
-            case 2:
-                Intent householdNecessitiesIntent = new Intent(this, HouseholdEssentials.class);
-                startActivity(householdNecessitiesIntent);
+            case 3:
+                Intent miscIntent = new Intent(this, Misc.class);
+                startActivity(miscIntent);
                 finish();
                 break;
         }

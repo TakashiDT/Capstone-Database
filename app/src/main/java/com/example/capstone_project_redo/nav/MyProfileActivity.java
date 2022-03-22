@@ -13,8 +13,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.capstone_project_redo.DrawerBaseActivity;
 import com.example.capstone_project_redo.EditProfileActivity;
-import com.example.capstone_project_redo.HomePage;
+import com.example.capstone_project_redo.LoginActivity;
 import com.example.capstone_project_redo.R;
+import com.example.capstone_project_redo.databinding.ActivityHomePageBinding;
 import com.example.capstone_project_redo.databinding.ActivityMyProfileBinding;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -122,4 +123,5 @@ public class MyProfileActivity extends DrawerBaseActivity {
         startActivity(new Intent(MyProfileActivity.this, HomePage.class));
         finish();
     }
+
 }
