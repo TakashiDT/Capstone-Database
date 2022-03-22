@@ -11,13 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Capstone_Project_Redo">
-        <activity android:name=".admin.ActiveUsers"></activity>
+        <activity android:name=".admin.ActiveUsers" />
         <activity android:name=".admin.PendingUsers" />
         <activity android:name=".AdminActivity" />
-        <activity android:name=".nav.EditProductActivity" />
-        <activity android:name=".category.HouseholdEssentials" />
+        <activity android:name=".AddItemActivity$EditProductActivity" />
+        <activity android:name=".category.Basic" />
         <activity android:name=".category.Food" />
         <activity android:name=".category.CraftedGoods" />
+        <activity android:name=".category.Misc" />
+        <activity android:name=".category.ProductData" />
         <activity android:name=".CreateAccountPart1" />
         <activity android:name=".CreateAccountPart2" />
         <activity android:name=".LoginActivity" />
@@ -30,7 +32,7 @@
         <activity android:name=".EditProfileActivity" />
         <activity android:name=".DrawerBaseActivity" />
         <activity
-            android:name=".HomePage"
+            android:name=".nav.HomePage"
             android:label="@string/title_activity_home_page"
             android:theme="@style/Theme.Capstone_Project_Redo.NoActionBar" />
         <activity

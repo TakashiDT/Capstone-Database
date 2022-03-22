@@ -23,6 +23,6 @@
         app:showAsAction="collapseActionView"/>
     <item
         android:id="@+id/filterHousehold"
-        android:title="Household Essentials Only"
+        android:title="Basic Necessities Only"
         app:showAsAction="collapseActionView"/>
 </menu>

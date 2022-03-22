@@ -17,6 +17,7 @@ import com.example.capstone_project_redo.admin.ActiveUsers;
 import com.example.capstone_project_redo.admin.PendingUsers;
 import com.example.capstone_project_redo.nav.AboutActivity;
 import com.example.capstone_project_redo.nav.CategoryActivity;
+import com.example.capstone_project_redo.nav.HomePage;
 import com.example.capstone_project_redo.nav.MyProductsActivity;
 import com.example.capstone_project_redo.nav.MyProfileActivity;
 import com.example.capstone_project_redo.nav.SRPActivity;

@@ -1,5 +1,6 @@
 package com.example.capstone_project_redo.adapter;
 
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,9 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.capstone_project_redo.R;
+import com.example.capstone_project_redo.category.ProductData;
 import com.example.capstone_project_redo.model.CategoryInsideModel;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
 import com.orhanobut.dialogplus.DialogPlus;
 import com.orhanobut.dialogplus.ViewHolder;
 
@@ -45,34 +48,20 @@ public class CategoryInsideAdapter extends FirebaseRecyclerAdapter<CategoryInsid
 
         Glide.with(holder.imageUrl.getContext())
                 .load(model.getImageUrl())
+                .centerCrop()
                 .into(holder.imageUrl);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final DialogPlus dialogPlus = DialogPlus.newDialog(holder.imageUrl.getContext())
-                        .setContentHolder(new ViewHolder(R.layout.viewholder_product_data))
-                        .setGravity(Gravity.CENTER).create();
+                String productID = model.getProductId();
+                String productCategory = model.getCategory();
 
-                View data = dialogPlus.getHolderView();
+                Intent intent =  new Intent(holder.itemView.getContext(), ProductData.class);
+                intent.putExtra("id", productID);
+                intent.putExtra("category", productCategory);
+                view.getContext().startActivity(intent);
 
-                TextView name = data.findViewById(R.id.tv_productName);
-                TextView category = data.findViewById(R.id.tv_productCategory);
-                TextView desc = data.findViewById(R.id.tv_productDesc);
-                TextView seller = data.findViewById(R.id.tv_productSeller);
-                TextView price = data.findViewById(R.id.tv_productPrice);
-                ImageView product = data.findViewById(R.id.iv_productImage);
-
-                name.setText(model.getName());
-                category.setText(model.getCategory());
-                desc.setText(model.getDescription());
-                seller.setText(model.getSeller());
-                price.setText(model.getPrice()+" "+model.getPriceExtension());
-                Glide.with(product.getContext())
-                        .load(model.getImageUrl())
-                        .into(product);
-
-                dialogPlus.show();
             }
         });
     }

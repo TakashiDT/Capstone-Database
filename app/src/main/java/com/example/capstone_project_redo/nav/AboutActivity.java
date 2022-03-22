@@ -1,7 +1,6 @@
 package com.example.capstone_project_redo.nav;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,15 +9,10 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.capstone_project_redo.DrawerBaseActivity;
-import com.example.capstone_project_redo.HomePage;
-import com.example.capstone_project_redo.LoginActivity;
 import com.example.capstone_project_redo.R;
 import com.example.capstone_project_redo.adapter.AboutAdapter;
-import com.example.capstone_project_redo.adapter.CategoryAdapter;
 import com.example.capstone_project_redo.databinding.ActivityAboutBinding;
-import com.example.capstone_project_redo.databinding.ActivityMyProfileBinding;
 import com.example.capstone_project_redo.model.AboutModel;
-import com.example.capstone_project_redo.model.CategoryModel;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

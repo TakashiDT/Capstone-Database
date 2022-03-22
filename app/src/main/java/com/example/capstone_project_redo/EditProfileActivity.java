@@ -146,7 +146,7 @@ public class EditProfileActivity extends AppCompatActivity {
                                 uploadImage();
 
                                 Toast.makeText(EditProfileActivity.this, "Updated Successfully", Toast.LENGTH_SHORT).show();
-                                //ProfileTransition();
+                                ProfileTransition();
                                 finish();
                             }
                         }

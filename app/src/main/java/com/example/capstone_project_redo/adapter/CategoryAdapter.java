@@ -73,6 +73,6 @@ public class CategoryAdapter extends FirebaseRecyclerAdapter<CategoryModel, Cate
     }
 
     public interface OnCategoryListener {
-        void onCategoryClick(final int position);
+        void onCategoryClick(int position);
     }
 }

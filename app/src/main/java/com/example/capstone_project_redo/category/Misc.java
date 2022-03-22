@@ -22,7 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
-public class CraftedGoods extends DrawerBaseActivity implements CategoryInsideAdapter.OnProductListener{
+public class Misc extends DrawerBaseActivity implements CategoryInsideAdapter.OnProductListener{
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = database.getReferenceFromUrl("https://loginregister-f1e0d-default-rtdb.firebaseio.com");
@@ -39,7 +39,7 @@ public class CraftedGoods extends DrawerBaseActivity implements CategoryInsideAd
         super.onCreate(savedInstanceState);
         insideBinding = com.example.capstone_project_redo.databinding.CategoryInsideBinding.inflate(getLayoutInflater());
         setContentView(insideBinding.getRoot());
-        allocateActivityTitle("Crafted Goods Section");
+        allocateActivityTitle("Miscellaneous Section");
 
         loadingProgress = new ProgressDialog(this);
         loadingProgress.setMessage("Loading, Please Wait...");
@@ -69,7 +69,7 @@ public class CraftedGoods extends DrawerBaseActivity implements CategoryInsideAd
 
         FirebaseRecyclerOptions<CategoryInsideModel> options;
         options = new FirebaseRecyclerOptions.Builder<CategoryInsideModel>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Crafted Goods"), CategoryInsideModel.class)
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("categories").child("Miscellaneous"), CategoryInsideModel.class)
                 .build();
 
         categoryInsideAdapter = new CategoryInsideAdapter(this, options);
@@ -101,7 +101,7 @@ public class CraftedGoods extends DrawerBaseActivity implements CategoryInsideAd
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(CraftedGoods.this, CategoryActivity.class));
+        startActivity(new Intent(Misc.this, CategoryActivity.class));
         finish();
     }
 
